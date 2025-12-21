@@ -142,6 +142,10 @@ body {
     overflow: hidden;
 }
 
+.hero-title-top {
+    display: none; /* PC表示では非表示 */
+}
+
 .hero-video {
     position: relative;
     width: 100%;
@@ -163,6 +167,15 @@ body {
     text-align: center;
     padding: var(--spacing-md);
     background-color: var(--bg-white);
+}
+
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-serif);
+    margin: 0;
+    letter-spacing: 0.05em;
+    color: var(--primary-red);
 }
 
 .hero-subtitle {
@@ -432,12 +445,29 @@ p {
         --spacing-xl: 4rem;
     }
     
+    /* スマホ表示: 動画上部にタイトル表示 */
+    .hero-title-top {
+        display: block;
+        text-align: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--bg-white);
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
     .hero-content {
         padding: var(--spacing-sm) var(--spacing-md);
     }
     
     .hero-subtitle {
         font-size: 0.9rem;
+    }
+    
+    /* 次のセクションとの余白を自然に調整 */
+    main > .section:first-child {
+        padding-top: var(--spacing-lg);
     }
     
     h2 {
