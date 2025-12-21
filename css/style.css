@@ -159,27 +159,17 @@ body {
 }
 
 .hero-content {
-    display: none; /* PC表示では非表示 */
-}
-
-.hero-content-top,
-.hero-content-bottom {
-    display: none;
-}
-
-.hero-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-family: var(--font-serif);
-    margin: 0;
-    letter-spacing: 0.05em;
-    color: var(--primary-red);
+    display: block; /* PC・スマホ共通で表示 */
+    text-align: center;
+    padding: var(--spacing-md);
+    background-color: var(--bg-white);
 }
 
 .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--text-gray);
     margin: 0;
+    line-height: 1.6;
 }
 
 .hero-subtitle {
@@ -442,37 +432,12 @@ p {
         --spacing-xl: 4rem;
     }
     
-    .hero {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .hero-content-top {
-        display: block;
-        text-align: center;
+    .hero-content {
         padding: var(--spacing-sm) var(--spacing-md);
-        background-color: var(--bg-white);
-        order: 1;
-    }
-    
-    .hero-video {
-        order: 2;
-    }
-    
-    .hero-content-bottom {
-        display: block;
-        text-align: center;
-        padding: var(--spacing-sm) var(--spacing-md);
-        background-color: var(--bg-white);
-        order: 3;
-    }
-    
-    .hero-title {
-        font-size: 1.3rem;
     }
     
     .hero-subtitle {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
     }
     
     h2 {
