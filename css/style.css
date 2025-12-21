@@ -139,45 +139,47 @@ body {
 .hero {
     position: relative;
     width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
 }
 
 .hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    z-index: 1;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
 }
 
-.hero-video iframe {
+.hero-video video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .hero-content {
     display: none; /* PC表示では非表示 */
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    color: var(--text-dark);
-    padding: var(--spacing-md);
-    background-color: var(--bg-white);
+}
+
+.hero-content-top,
+.hero-content-bottom {
+    display: none;
 }
 
 .hero-title {
     font-size: 1.5rem;
     font-weight: 700;
     font-family: var(--font-serif);
-    margin-bottom: 0.5rem;
+    margin: 0;
     letter-spacing: 0.05em;
     color: var(--primary-red);
+}
+
+.hero-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    margin: 0;
 }
 
 .hero-subtitle {
@@ -441,28 +443,36 @@ p {
     }
     
     .hero {
-        padding-bottom: 0;
-        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .hero-content-top {
+        display: block;
+        text-align: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--bg-white);
+        order: 1;
     }
     
     .hero-video {
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        order: 2;
     }
     
-    .hero-content {
-        display: block; /* スマホ表示では表示 */
-        padding: var(--spacing-sm);
+    .hero-content-bottom {
+        display: block;
+        text-align: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--bg-white);
+        order: 3;
     }
     
     .hero-title {
         font-size: 1.3rem;
-        margin-bottom: 0.3rem;
     }
     
     .hero-subtitle {
         font-size: 0.85rem;
-        color: var(--text-gray);
     }
     
     h2 {
