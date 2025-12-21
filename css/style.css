@@ -138,11 +138,9 @@ body {
 ======================================== */
 .hero {
     position: relative;
-    height: 70vh;
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     overflow: hidden;
 }
 
@@ -157,43 +155,29 @@ body {
 
 .hero-video iframe {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-}
-
-.hero-video::after {
-    content: '';
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
 }
 
 .hero-content {
+    display: none; /* PC表示では非表示 */
     position: relative;
     z-index: 3;
     text-align: center;
-    color: var(--bg-white);
-    max-width: 800px;
+    color: var(--text-dark);
     padding: var(--spacing-md);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: var(--bg-white);
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: 1.5rem;
     font-weight: 700;
     font-family: var(--font-serif);
-    margin-bottom: var(--spacing-md);
-    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    color: var(--primary-red);
 }
 
 .hero-subtitle {
@@ -456,12 +440,29 @@ p {
         --spacing-xl: 4rem;
     }
     
+    .hero {
+        padding-bottom: 0;
+        height: auto;
+    }
+    
+    .hero-video {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    }
+    
+    .hero-content {
+        display: block; /* スマホ表示では表示 */
+        padding: var(--spacing-sm);
+    }
+    
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.85rem;
+        color: var(--text-gray);
     }
     
     h2 {
