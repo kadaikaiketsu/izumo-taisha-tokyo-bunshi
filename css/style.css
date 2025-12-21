@@ -440,6 +440,11 @@ p {
         font-size: 0.9rem;
     }
     
+    /* ヒーローセクション直後のセクション余白を縮小 */
+    .hero + main .section:first-child {
+        padding-top: var(--spacing-md);
+    }
+    
     h2 {
         font-size: 2rem;
     }
