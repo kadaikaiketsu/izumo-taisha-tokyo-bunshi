@@ -434,15 +434,22 @@ p {
     
     .hero-content {
         padding: var(--spacing-sm) var(--spacing-md);
+        margin-bottom: 0;
     }
     
     .hero-subtitle {
         font-size: 0.9rem;
+        margin-bottom: 0;
     }
     
-    /* ヒーローセクション直後のセクション余白を縮小 */
+    /* ヒーローセクション直後のセクション余白を大幅に縮小 */
     .hero + main .section:first-child {
-        padding-top: var(--spacing-md);
+        padding-top: var(--spacing-xs);
+    }
+    
+    /* ヒーローセクション全体の下部余白を削除 */
+    .hero {
+        margin-bottom: 0;
     }
     
     h2 {
