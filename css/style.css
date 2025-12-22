@@ -472,11 +472,6 @@ p {
         margin-top: 1rem !important;
     }
     
-    .section-news-btn {
-        padding: 0.5rem 1.2rem !important;
-        font-size: 0.85rem !important;
-    }
-    
     /* 次のセクションとの余白を自然に調整 */
     main > .section:first-child {
         padding-top: var(--spacing-lg);
@@ -603,15 +598,13 @@ p {
 /* ========================================
    最新情報ボタン
 ======================================== */
-.hero-news-btn:hover,
-.section-news-btn:hover {
+.hero-news-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
     background: linear-gradient(135deg, #a52a2a 0%, var(--primary-red) 100%);
 }
 
-.hero-news-btn:active,
-.section-news-btn:active {
+.hero-news-btn:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
 }
@@ -623,8 +616,7 @@ p {
     .site-header,
     .site-footer,
     .btn,
-    .hero-news-btn,
-    .section-news-btn {
+    .hero-news-btn {
         display: none;
     }
     
