@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# サイトマップ
+Sitemap: https://izumotaisya-tokyobunshi.com/sitemap.xml
+
+# クロールのルール
+Disallow: /admin.html
+Disallow: /*.backup
+Disallow: /*.bak
+Disallow: /*.sh
