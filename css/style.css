@@ -560,6 +560,24 @@ p {
     .card-grid {
         grid-template-columns: 1fr;
     }
+    
+    /* フッターのソーシャルリンクをスマホ対応 */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .social-links {
+        margin-top: var(--spacing-sm);
+    }
+    
+    .social-link {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0.875rem 1rem;
+        font-size: 0.9rem;
+    }
 }
 
 /* モバイル */
@@ -586,6 +604,17 @@ p {
     .container,
     .container-narrow {
         padding: 0 var(--spacing-sm);
+    }
+    
+    /* フッターのソーシャルリンクをさらに小さい画面に対応 */
+    .social-link {
+        padding: 0.75rem 0.875rem;
+        font-size: 0.85rem;
+    }
+    
+    .social-link svg {
+        width: 20px;
+        height: 20px;
     }
 }
 
