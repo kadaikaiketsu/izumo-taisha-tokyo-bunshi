@@ -57,6 +57,12 @@ news.get('/new', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
+                        <div style="margin-bottom: 10px;">
+                            <button type="button" id="pdfUploadBtn" class="button button-secondary" style="padding: 8px 16px; font-size: 14px;">
+                                📎 PDFをアップロード
+                            </button>
+                            <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
+                        </div>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required></textarea>
                     </div>
@@ -67,6 +73,7 @@ news.get('/new', async (c) => {
                     </div>
                     
                     <div class="form-actions">
+                        <button type="button" id="previewBtn" class="button button-secondary">👁️ プレビュー</button>
                         <button type="submit" class="button">💾 保存してGitHubにプッシュ</button>
                         <a href="/admin/dashboard" class="button button-secondary">キャンセル</a>
                     </div>
@@ -98,6 +105,7 @@ news.get('/new', async (c) => {
             modules: {
               toolbar: [
                 [{ 'header': [1, 2, 3, false] }],
+                [{ 'font': ['sans-serif', 'serif', 'noto-sans', 'noto-serif', 'yu-gothic', 'yu-mincho', 'meiryo', 'hiragino'] }],
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 ['bold', 'italic', 'underline', 'strike'],
                 [{ 'color': [] }, { 'background': [] }],
@@ -109,9 +117,80 @@ news.get('/new', async (c) => {
             }
           });
           
+          // Add custom fonts CSS
+          var fontStyles = document.createElement('style');
+          fontStyles.innerHTML = \`
+            .ql-font-sans-serif { font-family: sans-serif; }
+            .ql-font-serif { font-family: serif; }
+            .ql-font-noto-sans { font-family: 'Noto Sans JP', sans-serif; }
+            .ql-font-noto-serif { font-family: 'Noto Serif JP', serif; }
+            .ql-font-yu-gothic { font-family: 'Yu Gothic', '游ゴシック', YuGothic, sans-serif; }
+            .ql-font-yu-mincho { font-family: 'Yu Mincho', '游明朝', YuMincho, serif; }
+            .ql-font-meiryo { font-family: Meiryo, 'メイリオ', sans-serif; }
+            .ql-font-hiragino { font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif; }
+          \`;
+          document.head.appendChild(fontStyles);
+          
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
             document.getElementById('content').value = quill.root.innerHTML;
+          });
+          
+          // PDF Upload
+          document.getElementById('pdfUploadBtn').addEventListener('click', function() {
+            document.getElementById('pdfInput').click();
+          });
+          
+          document.getElementById('pdfInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                const base64 = event.target.result;
+                const range = quill.getSelection(true);
+                quill.insertText(range.index, file.name, 'link', base64);
+                quill.insertText(range.index + file.name.length, ' (PDF) ');
+                alert('PDFがアップロードされました！');
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          
+          // Preview
+          document.getElementById('previewBtn').addEventListener('click', function() {
+            const title = document.getElementById('title').value || '無題';
+            const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+            const content = quill.root.innerHTML;
+            
+            const previewHTML = \`<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレビュー: \${title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
+        .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; }
+        .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .preview-content img { max-width: 100%; height: auto; }
+        .preview-content a { color: #8B4513; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="preview-header">
+        <div class="preview-date">\${date}</div>
+        <h1 class="preview-title">\${title}</h1>
+    </div>
+    <div class="preview-content">\${content}</div>
+</body>
+</html>\`;
+            
+            const previewWindow = window.open('', 'preview', 'width=900,height=700');
+            previewWindow.document.write(previewHTML);
+            previewWindow.document.close();
           });
         </script>
     </body>
@@ -184,6 +263,12 @@ news.get('/edit/:id', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
+                        <div style="margin-bottom: 10px;">
+                            <button type="button" id="pdfUploadBtn" class="button button-secondary" style="padding: 8px 16px; font-size: 14px;">
+                                📎 PDFをアップロード
+                            </button>
+                            <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
+                        </div>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required>${item.content || ''}</textarea>
                     </div>
@@ -194,6 +279,7 @@ news.get('/edit/:id', async (c) => {
                     </div>
                     
                     <div class="form-actions">
+                        <button type="button" id="previewBtn" class="button button-secondary">👁️ プレビュー</button>
                         <button type="submit" class="button">💾 更新してGitHubにプッシュ</button>
                         <a href="/admin/dashboard" class="button button-secondary">キャンセル</a>
                     </div>
@@ -210,6 +296,7 @@ news.get('/edit/:id', async (c) => {
             modules: {
               toolbar: [
                 [{ 'header': [1, 2, 3, false] }],
+                [{ 'font': ['sans-serif', 'serif', 'noto-sans', 'noto-serif', 'yu-gothic', 'yu-mincho', 'meiryo', 'hiragino'] }],
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 ['bold', 'italic', 'underline', 'strike'],
                 [{ 'color': [] }, { 'background': [] }],
@@ -221,6 +308,20 @@ news.get('/edit/:id', async (c) => {
             }
           });
           
+          // Add custom fonts CSS
+          var fontStyles = document.createElement('style');
+          fontStyles.innerHTML = \`
+            .ql-font-sans-serif { font-family: sans-serif; }
+            .ql-font-serif { font-family: serif; }
+            .ql-font-noto-sans { font-family: 'Noto Sans JP', sans-serif; }
+            .ql-font-noto-serif { font-family: 'Noto Serif JP', serif; }
+            .ql-font-yu-gothic { font-family: 'Yu Gothic', '游ゴシック', YuGothic, sans-serif; }
+            .ql-font-yu-mincho { font-family: 'Yu Mincho', '游明朝', YuMincho, serif; }
+            .ql-font-meiryo { font-family: Meiryo, 'メイリオ', sans-serif; }
+            .ql-font-hiragino { font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif; }
+          \`;
+          document.head.appendChild(fontStyles);
+          
           // Load existing content
           const existingContent = document.getElementById('content').value;
           if (existingContent) {
@@ -230,6 +331,63 @@ news.get('/edit/:id', async (c) => {
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
             document.getElementById('content').value = quill.root.innerHTML;
+          });
+          
+          // PDF Upload
+          document.getElementById('pdfUploadBtn').addEventListener('click', function() {
+            document.getElementById('pdfInput').click();
+          });
+          
+          document.getElementById('pdfInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+              const reader = new FileReader();
+              reader.onload = function(event) {
+                const base64 = event.target.result;
+                const range = quill.getSelection(true);
+                quill.insertText(range.index, file.name, 'link', base64);
+                quill.insertText(range.index + file.name.length, ' (PDF) ');
+                alert('PDFがアップロードされました！');
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+          
+          // Preview
+          document.getElementById('previewBtn').addEventListener('click', function() {
+            const title = document.getElementById('title').value || '無題';
+            const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+            const content = quill.root.innerHTML;
+            
+            const previewHTML = \`<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレビュー: \${title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
+        .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; }
+        .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .preview-content img { max-width: 100%; height: auto; }
+        .preview-content a { color: #8B4513; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="preview-header">
+        <div class="preview-date">\${date}</div>
+        <h1 class="preview-title">\${title}</h1>
+    </div>
+    <div class="preview-content">\${content}</div>
+</body>
+</html>\`;
+            
+            const previewWindow = window.open('', 'preview', 'width=900,height=700');
+            previewWindow.document.write(previewHTML);
+            previewWindow.document.close();
           });
         </script>
     </body>
