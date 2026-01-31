@@ -23,6 +23,7 @@ news.get('/new', async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>新規記事作成 | 出雲大社東京分祠</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -56,10 +57,8 @@ news.get('/new', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
-                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required></textarea>
-                        <small style="color: #718096; font-size: 13px;">
-                            ※ HTMLタグを使用できます（例: &lt;p&gt;段落&lt;/p&gt;、&lt;br&gt;改行、&lt;a href="..."&gt;リンク&lt;/a&gt;）
-                        </small>
+                        <div id="editor" style="height: 400px; background: white;"></div>
+                        <textarea id="content" name="content" style="display: none;" required></textarea>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -75,6 +74,7 @@ news.get('/new', async (c) => {
             </div>
         </div>
         
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script>
           // Auto-generate slug from title
           document.getElementById('title').addEventListener('input', function(e) {
@@ -83,13 +83,35 @@ news.get('/new', async (c) => {
             
             // Only auto-generate if slug is empty
             if (!slugInput.value) {
-              // Simple slug generation (you can customize this)
               const slug = title
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-|-$/g, '');
               slugInput.value = slug;
             }
+          });
+          
+          // Initialize Quill editor
+          var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '本文を入力してください...',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+          
+          // Sync Quill content to hidden textarea on form submit
+          document.querySelector('form').addEventListener('submit', function(e) {
+            document.getElementById('content').value = quill.root.innerHTML;
           });
         </script>
     </body>
@@ -126,6 +148,7 @@ news.get('/edit/:id', async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>記事編集: ${item.title} | 出雲大社東京分祠</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -161,10 +184,8 @@ news.get('/edit/:id', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
-                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required>${item.content || ''}</textarea>
-                        <small style="color: #718096; font-size: 13px;">
-                            ※ HTMLタグを使用できます（例: &lt;p&gt;段落&lt;/p&gt;、&lt;br&gt;改行、&lt;a href="..."&gt;リンク&lt;/a&gt;）
-                        </small>
+                        <div id="editor" style="height: 400px; background: white;"></div>
+                        <textarea id="content" name="content" style="display: none;" required>${item.content || ''}</textarea>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -180,6 +201,37 @@ news.get('/edit/:id', async (c) => {
             </div>
         </div>
         
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script>
+          // Initialize Quill editor
+          var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '本文を入力してください...',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+          
+          // Load existing content
+          const existingContent = document.getElementById('content').value;
+          if (existingContent) {
+            quill.root.innerHTML = existingContent;
+          }
+          
+          // Sync Quill content to hidden textarea on form submit
+          document.querySelector('form').addEventListener('submit', function(e) {
+            document.getElementById('content').value = quill.root.innerHTML;
+          });
+        </script>
     </body>
     </html>
   `);

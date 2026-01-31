@@ -125,6 +125,115 @@ function generateNewsHTML(item: any): string {
 </html>`;
 }
 
+// Helper: Update index.html with latest 5 news
+async function updateIndexHTML(db: any, token: string): Promise<void> {
+  // Get latest 5 published news
+  const { results } = await db.prepare(`
+    SELECT date, title, slug FROM news_items 
+    WHERE published = 1 
+    ORDER BY date DESC, created_at DESC 
+    LIMIT 5
+  `).all();
+  
+  const newsItems = results || [];
+  
+  // Read current index.html from GitHub
+  const getUrl = 'https://api.github.com/repos/kadaikaiketsu/izumo-taisha-tokyo-bunshi/contents/index.html';
+  const getResponse = await fetch(getUrl, {
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+    },
+  });
+  
+  if (!getResponse.ok) {
+    throw new Error('Failed to fetch index.html from GitHub');
+  }
+  
+  const fileData = await getResponse.json() as { content: string; sha: string };
+  const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+  
+  // Generate news list HTML
+  const newsListHTML = newsItems.map((item: any) => `
+                    <li class="news-item">
+                        <a href="news/${item.slug}.html">
+                            <span class="news-date">${item.date}</span>
+                            <span class="news-title">${item.title}</span>
+                        </a>
+                    </li>`).join('');
+  
+  // Replace news list in index.html
+  const updatedContent = currentContent.replace(
+    /<ul class="news-list">[\s\S]*?<\/ul>/,
+    `<ul class="news-list">${newsListHTML}
+                </ul>`
+  );
+  
+  // Commit updated index.html
+  await commitToGitHub(
+    token,
+    'kadaikaiketsu',
+    'izumo-taisha-tokyo-bunshi',
+    'index.html',
+    updatedContent,
+    'Auto-update: Latest 5 news in index.html'
+  );
+}
+
+// Helper: Update news.html with all news
+async function updateNewsHTML(db: any, token: string): Promise<void> {
+  // Get all published news
+  const { results } = await db.prepare(`
+    SELECT date, title, slug FROM news_items 
+    WHERE published = 1 
+    ORDER BY date DESC, created_at DESC
+  `).all();
+  
+  const newsItems = results || [];
+  
+  // Read current news.html from GitHub
+  const getUrl = 'https://api.github.com/repos/kadaikaiketsu/izumo-taisha-tokyo-bunshi/contents/news.html';
+  const getResponse = await fetch(getUrl, {
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+    },
+  });
+  
+  if (!getResponse.ok) {
+    throw new Error('Failed to fetch news.html from GitHub');
+  }
+  
+  const fileData = await getResponse.json() as { content: string; sha: string };
+  const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+  
+  // Generate news list HTML
+  const newsListHTML = newsItems.map((item: any) => `
+            <article class="news-card">
+                <time class="news-date">${item.date}</time>
+                <h3 class="news-title">
+                    <a href="news/${item.slug}.html">${item.title}</a>
+                </h3>
+            </article>`).join('');
+  
+  // Replace news list in news.html
+  const updatedContent = currentContent.replace(
+    /<div class="news-grid">[\s\S]*?<\/div>/,
+    `<div class="news-grid">${newsListHTML}
+        </div>`
+  );
+  
+  // Commit updated news.html
+  await commitToGitHub(
+    token,
+    'kadaikaiketsu',
+    'izumo-taisha-tokyo-bunshi',
+    'news.html',
+    updatedContent,
+    'Auto-update: All news in news.html'
+  );
+}
+
 // Helper: Commit file to GitHub
 async function commitToGitHub(
   token: string,
@@ -219,6 +328,10 @@ api.post('/', async (c) => {
       `Add news: ${title} (${date})`
     );
     
+    // Update index.html and news.html
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    
     return c.redirect('/admin/dashboard');
   } catch (error) {
     console.error('Error creating news:', error);
@@ -265,6 +378,10 @@ api.post('/:id', async (c) => {
       htmlContent,
       `Update news: ${title} (${date})`
     );
+    
+    // Update index.html and news.html
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     
     return c.redirect('/admin/dashboard');
   } catch (error) {
@@ -328,6 +445,10 @@ api.post('/:id/delete', async (c) => {
         }),
       });
     }
+    
+    // Update index.html and news.html
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     
     return c.redirect('/admin/dashboard');
   } catch (error) {

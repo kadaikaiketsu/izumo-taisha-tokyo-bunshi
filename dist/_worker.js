@@ -2848,6 +2848,7 @@ news.get("/new", async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>\u65B0\u898F\u8A18\u4E8B\u4F5C\u6210 | \u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -2881,10 +2882,8 @@ news.get("/new", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required></textarea>
-                        <small style="color: #718096; font-size: 13px;">
-                            \u203B HTML\u30BF\u30B0\u3092\u4F7F\u7528\u3067\u304D\u307E\u3059\uFF08\u4F8B: &lt;p&gt;\u6BB5\u843D&lt;/p&gt;\u3001&lt;br&gt;\u6539\u884C\u3001&lt;a href="..."&gt;\u30EA\u30F3\u30AF&lt;/a&gt;\uFF09
-                        </small>
+                        <div id="editor" style="height: 400px; background: white;"></div>
+                        <textarea id="content" name="content" style="display: none;" required></textarea>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -2900,6 +2899,7 @@ news.get("/new", async (c) => {
             </div>
         </div>
         
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"><\/script>
         <script>
           // Auto-generate slug from title
           document.getElementById('title').addEventListener('input', function(e) {
@@ -2908,13 +2908,35 @@ news.get("/new", async (c) => {
             
             // Only auto-generate if slug is empty
             if (!slugInput.value) {
-              // Simple slug generation (you can customize this)
               const slug = title
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-|-$/g, '');
               slugInput.value = slug;
             }
+          });
+          
+          // Initialize Quill editor
+          var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '\u672C\u6587\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044...',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+          
+          // Sync Quill content to hidden textarea on form submit
+          document.querySelector('form').addEventListener('submit', function(e) {
+            document.getElementById('content').value = quill.root.innerHTML;
           });
         <\/script>
     </body>
@@ -2943,6 +2965,7 @@ news.get("/edit/:id", async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>\u8A18\u4E8B\u7DE8\u96C6: ${item.title} | \u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -2978,10 +3001,8 @@ news.get("/edit/:id", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required>${item.content || ""}</textarea>
-                        <small style="color: #718096; font-size: 13px;">
-                            \u203B HTML\u30BF\u30B0\u3092\u4F7F\u7528\u3067\u304D\u307E\u3059\uFF08\u4F8B: &lt;p&gt;\u6BB5\u843D&lt;/p&gt;\u3001&lt;br&gt;\u6539\u884C\u3001&lt;a href="..."&gt;\u30EA\u30F3\u30AF&lt;/a&gt;\uFF09
-                        </small>
+                        <div id="editor" style="height: 400px; background: white;"></div>
+                        <textarea id="content" name="content" style="display: none;" required>${item.content || ""}</textarea>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -2997,6 +3018,37 @@ news.get("/edit/:id", async (c) => {
             </div>
         </div>
         
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"><\/script>
+        <script>
+          // Initialize Quill editor
+          var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: '\u672C\u6587\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044...',
+            modules: {
+              toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'align': [] }],
+                ['link', 'image'],
+                ['clean']
+              ]
+            }
+          });
+          
+          // Load existing content
+          const existingContent = document.getElementById('content').value;
+          if (existingContent) {
+            quill.root.innerHTML = existingContent;
+          }
+          
+          // Sync Quill content to hidden textarea on form submit
+          document.querySelector('form').addEventListener('submit', function(e) {
+            document.getElementById('content').value = quill.root.innerHTML;
+          });
+        <\/script>
     </body>
     </html>
   `);
@@ -3122,6 +3174,87 @@ function generateNewsHTML(item) {
 </body>
 </html>`;
 }
+async function updateIndexHTML(db, token) {
+  const { results } = await db.prepare(`
+    SELECT date, title, slug FROM news_items 
+    WHERE published = 1 
+    ORDER BY date DESC, created_at DESC 
+    LIMIT 5
+  `).all();
+  const newsItems = results || [];
+  const getUrl = "https://api.github.com/repos/kadaikaiketsu/izumo-taisha-tokyo-bunshi/contents/index.html";
+  const getResponse = await fetch(getUrl, {
+    headers: {
+      "Authorization": `token ${token}`,
+      "Accept": "application/vnd.github.v3+json"
+    }
+  });
+  if (!getResponse.ok) {
+    throw new Error("Failed to fetch index.html from GitHub");
+  }
+  const fileData = await getResponse.json();
+  const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+  const newsListHTML = newsItems.map((item) => `
+                    <li class="news-item">
+                        <a href="news/${item.slug}.html">
+                            <span class="news-date">${item.date}</span>
+                            <span class="news-title">${item.title}</span>
+                        </a>
+                    </li>`).join("");
+  const updatedContent = currentContent.replace(
+    /<ul class="news-list">[\s\S]*?<\/ul>/,
+    `<ul class="news-list">${newsListHTML}
+                </ul>`
+  );
+  await commitToGitHub(
+    token,
+    "kadaikaiketsu",
+    "izumo-taisha-tokyo-bunshi",
+    "index.html",
+    updatedContent,
+    "Auto-update: Latest 5 news in index.html"
+  );
+}
+async function updateNewsHTML(db, token) {
+  const { results } = await db.prepare(`
+    SELECT date, title, slug FROM news_items 
+    WHERE published = 1 
+    ORDER BY date DESC, created_at DESC
+  `).all();
+  const newsItems = results || [];
+  const getUrl = "https://api.github.com/repos/kadaikaiketsu/izumo-taisha-tokyo-bunshi/contents/news.html";
+  const getResponse = await fetch(getUrl, {
+    headers: {
+      "Authorization": `token ${token}`,
+      "Accept": "application/vnd.github.v3+json"
+    }
+  });
+  if (!getResponse.ok) {
+    throw new Error("Failed to fetch news.html from GitHub");
+  }
+  const fileData = await getResponse.json();
+  const currentContent = decodeURIComponent(escape(atob(fileData.content)));
+  const newsListHTML = newsItems.map((item) => `
+            <article class="news-card">
+                <time class="news-date">${item.date}</time>
+                <h3 class="news-title">
+                    <a href="news/${item.slug}.html">${item.title}</a>
+                </h3>
+            </article>`).join("");
+  const updatedContent = currentContent.replace(
+    /<div class="news-grid">[\s\S]*?<\/div>/,
+    `<div class="news-grid">${newsListHTML}
+        </div>`
+  );
+  await commitToGitHub(
+    token,
+    "kadaikaiketsu",
+    "izumo-taisha-tokyo-bunshi",
+    "news.html",
+    updatedContent,
+    "Auto-update: All news in news.html"
+  );
+}
 async function commitToGitHub(token, owner, repo, path, content, message) {
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
   let sha;
@@ -3188,6 +3321,8 @@ api.post("/", async (c) => {
       htmlContent,
       `Add news: ${title} (${date})`
     );
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     return c.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Error creating news:", error);
@@ -3224,6 +3359,8 @@ api.post("/:id", async (c) => {
       htmlContent,
       `Update news: ${title} (${date})`
     );
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     return c.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Error updating news:", error);
@@ -3270,6 +3407,8 @@ api.post("/:id/delete", async (c) => {
         })
       });
     }
+    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     return c.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Error deleting news:", error);
