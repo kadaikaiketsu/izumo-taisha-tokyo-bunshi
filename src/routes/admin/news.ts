@@ -58,7 +58,10 @@ news.get('/new', async (c) => {
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
                         <div id="editor" style="height: 400px; background: white;"></div>
-                        <textarea id="content" name="content" style="display: none;" required></textarea>
+                        <textarea id="content" name="content" style="display: none;"></textarea>
+                        <small style="color: #718096; font-size: 13px; margin-top: 10px; display: block;">
+                            ※ エディタが読み込めない場合は、本文を直接入力してください
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -77,27 +80,31 @@ news.get('/new', async (c) => {
         
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script>
-          // Auto-generate slug from title
-          document.getElementById('title').addEventListener('input', function(e) {
-            const title = e.target.value;
-            const slugInput = document.getElementById('slug');
+          try {
+            console.log('Starting Quill initialization...');
             
-            if (!slugInput.value) {
-              const slug = title
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-|-$/g, '');
-              slugInput.value = slug;
-            }
-          });
-          
-          // Register custom fonts BEFORE initializing Quill
-          var Font = Quill.import('formats/font');
-          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
-          Quill.register(Font, true);
-          
-          // Custom image handler (supports both images and PDFs)
-          function imageHandler() {
+            // Auto-generate slug from title
+            document.getElementById('title').addEventListener('input', function(e) {
+              const title = e.target.value;
+              const slugInput = document.getElementById('slug');
+              
+              if (!slugInput.value) {
+                const slug = title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-|-$/g, '');
+                slugInput.value = slug;
+              }
+            });
+            
+            // Register custom fonts BEFORE initializing Quill
+            var Font = Quill.import('formats/font');
+            Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+            Quill.register(Font, true);
+            console.log('Fonts registered');
+            
+            // Custom image handler (supports both images and PDFs)
+            function imageHandler() {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*,application/pdf');
@@ -209,15 +216,23 @@ news.get('/new', async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form submit triggered');
+            
             // Sync content
-            document.getElementById('content').value = quill.root.innerHTML;
+            const contentValue = quill.root.innerHTML;
+            document.getElementById('content').value = contentValue;
+            console.log('Content synced:', contentValue.substring(0, 50) + '...');
             
             // Show loading state on submit button
             const submitBtn = e.target.querySelector('button[type="submit"]');
             if (submitBtn) {
               submitBtn.disabled = true;
               submitBtn.textContent = '⏳ 保存中...';
+              console.log('Submit button disabled');
             }
+            
+            // Let the form submit naturally
+            console.log('Form submitting to:', e.target.action);
           });
           
           // Preview
@@ -232,6 +247,15 @@ news.get('/new', async (c) => {
             previewWindow.document.write(previewHTML);
             previewWindow.document.close();
           });
+          
+          } catch (error) {
+            console.error('Error initializing editor:', error);
+            alert('エディタの初期化に失敗しました: ' + error.message);
+            // Show textarea for manual input
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('content').style.height = '400px';
+            document.getElementById('editor').style.display = 'none';
+          }
         </script>
     </body>
     </html>
@@ -446,15 +470,23 @@ news.get('/edit/:id', async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form submit triggered');
+            
             // Sync content
-            document.getElementById('content').value = quill.root.innerHTML;
+            const contentValue = quill.root.innerHTML;
+            document.getElementById('content').value = contentValue;
+            console.log('Content synced:', contentValue.substring(0, 50) + '...');
             
             // Show loading state on submit button
             const submitBtn = e.target.querySelector('button[type="submit"]');
             if (submitBtn) {
               submitBtn.disabled = true;
               submitBtn.textContent = '⏳ 保存中...';
+              console.log('Submit button disabled');
             }
+            
+            // Let the form submit naturally
+            console.log('Form submitting to:', e.target.action);
           });
           
           // Preview
@@ -469,6 +501,15 @@ news.get('/edit/:id', async (c) => {
             previewWindow.document.write(previewHTML);
             previewWindow.document.close();
           });
+          
+          } catch (error) {
+            console.error('Error initializing editor:', error);
+            alert('エディタの初期化に失敗しました: ' + error.message);
+            // Show textarea for manual input
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('content').style.height = '400px';
+            document.getElementById('editor').style.display = 'none';
+          }
         </script>
     </body>
     </html>
