@@ -1,0 +1,277 @@
+Found 27 HTML files in news/
+
+-- SQL to import existing articles:
+-- Copy this and run: npx wrangler d1 execute izumo-cms --local --command="..."
+
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2026-02-01', '令和8年2月のご案内', 'gyoji-202602', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和8年2月のご案内</h1>
+                <p style="color: #666; margin...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和８年福徳会（ふくとくかい）のご案内', 'fukutoku-2026', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和８年福徳会（ふくとくかい）のご案内</h1>
+                <p style="color: #66...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年福徳会 ～当籤番号の発表～', 'fukutoku-tosen-2025-03', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年福徳会 ～当籤番号の発表～</h1>
+                <p style="color: #666;...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', 'Instagram公式アカウント開設のお知らせ', 'instagram-launch-2025', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">Instagram公式アカウント開設のお知らせ</h1>
+                <p style="color:...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '神語奉書浄書会のご案内', 'jyosyo-2025-03', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">神語奉書浄書会のご案内</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '神語奉書浄書会のご案内', 'jyosyo-2025-07', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">神語奉書浄書会のご案内</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '神語奉書浄書会のご案内', 'jyosyo-2025-11', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">神語奉書浄書会のご案内</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年 神在祭祈念行事のご案内', 'kamiari-2025-11', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年 神在祭祈念行事のご案内</h1>
+                <p style="color: #666; ...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '出雲の神塩のご案内', 'kamishio-2025-03', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">出雲の神塩のご案内</h1>
+                <p style="color: #666; margin-...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '出雲の神塩のご案内', 'kamishio-2025-10', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">出雲の神塩のご案内</h1>
+                <p style="color: #666; margin-...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和七年いづも暦の訂正について', 'koyomi-2025-01', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和七年いづも暦の訂正について</h1>
+                <p style="color: #666; m...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '正月のご案内', 'newyear-info-2025', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">正月のご案内</h1>
+                <p style="color: #666; margin-bot...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年新春御祈祷について', 'newyear-kito-2025', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年新春御祈祷について</h1>
+                <p style="color: #666; mar...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年新春御参拝のご案内', 'newyear-sanpai-2025', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年新春御参拝のご案内</h1>
+                <p style="color: #666; mar...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和６年 年越の大祓のご案内', 'ooharai-2024-12', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和６年 年越の大祓のご案内</h1>
+                <p style="color: #666; ma...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '夏越の大祓 解除申込書', 'ooharai-2025-06-gejyo', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">夏越の大祓 解除申込書</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年夏越の大祓のご案内', 'ooharai-2025-06', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年夏越の大祓のご案内</h1>
+                <p style="color: #666; mar...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '年越の大祓 解除申込書', 'ooharai-2025-12-gejyo', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">年越の大祓 解除申込書</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年 年越の大祓のご案内', 'ooharai-2025-12', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年 年越の大祓のご案内</h1>
+                <p style="color: #666; ma...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '御祈祷初穂料改定のお知らせ', 'price-modify-2025-04', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">御祈祷初穂料改定のお知らせ</h1>
+                <p style="color: #666; mar...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '節分のご案内', 'setsubun-fukumame-2026', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">節分のご案内</h1>
+                <p style="color: #666; margin-bot...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和8年 新春の祭典のご案内', 'shinshun-saiten-2026', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和8年 新春の祭典のご案内</h1>
+                <p style="color: #666; ma...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和8年 正月のご案内', 'shogatsu-annai-2026', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和8年 正月のご案内</h1>
+                <p style="color: #666; margi...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年春季大祭のご案内', 'taisai-2025-04', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年春季大祭のご案内</h1>
+                <p style="color: #666; marg...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '令和７年秋季大祭のご案内', 'taisai-2025-10', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和７年秋季大祭のご案内</h1>
+                <p style="color: #666; marg...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', '七夕のご案内', 'tanabata-2025-07', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">七夕のご案内</h1>
+                <p style="color: #666; margin-bot...', 1);
+INSERT INTO news_items (date, title, slug, content, published) VALUES ('2025-01-01', 'TikTok公式アカウント開設のお知らせ', 'tiktok-launch-2026', '<section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">TikTok公式アカウント開設のお知らせ</h1>
+                <p style="color: #6...', 1);
+
+✅ Generated SQL for 27 articles
