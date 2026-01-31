@@ -59,9 +59,6 @@ news.get('/new', async (c) => {
                         <label for="content">📄 本文 *</label>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required></textarea>
-                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
-                            💡 ヒント: 画像ボタン（🖼️）で画像とPDFの両方をアップロードできます。画像をクリックするとサイズと位置を調整できます。
-                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -115,9 +112,8 @@ news.get('/new', async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
-                    alert('PDF「' + file.name + '」をアップロードしました！\\n\\n※ 編集画面とプレビューでPDFの内容を確認できます。');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -269,9 +265,6 @@ news.get('/edit/:id', async (c) => {
                         <label for="content">📄 本文 *</label>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required>${item.content || ''}</textarea>
-                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
-                            💡 ヒント: 画像ボタン（🖼️）で画像とPDFの両方をアップロードできます。画像をクリックするとサイズと位置を調整できます。
-                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -311,9 +304,8 @@ news.get('/edit/:id', async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
-                    alert('PDF「' + file.name + '」をアップロードしました！\\n\\n※ 編集画面とプレビューでPDFの内容を確認できます。');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);

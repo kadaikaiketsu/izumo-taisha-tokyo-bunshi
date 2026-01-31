@@ -2884,9 +2884,6 @@ news.get("/new", async (c) => {
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required></textarea>
-                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
-                            \u{1F4A1} \u30D2\u30F3\u30C8: \u753B\u50CF\u30DC\u30BF\u30F3\uFF08\u{1F5BC}\uFE0F\uFF09\u3067\u753B\u50CF\u3068PDF\u306E\u4E21\u65B9\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3067\u304D\u307E\u3059\u3002\u753B\u50CF\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u30B5\u30A4\u30BA\u3068\u4F4D\u7F6E\u3092\u8ABF\u6574\u3067\u304D\u307E\u3059\u3002
-                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -2940,9 +2937,8 @@ news.get("/new", async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
-                    alert('PDF\u300C' + file.name + '\u300D\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u307E\u3057\u305F\uFF01\\n\\n\u203B \u7DE8\u96C6\u753B\u9762\u3068\u30D7\u30EC\u30D3\u30E5\u30FC\u3067PDF\u306E\u5185\u5BB9\u3092\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -3087,9 +3083,6 @@ news.get("/edit/:id", async (c) => {
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required>${item.content || ""}</textarea>
-                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
-                            \u{1F4A1} \u30D2\u30F3\u30C8: \u753B\u50CF\u30DC\u30BF\u30F3\uFF08\u{1F5BC}\uFE0F\uFF09\u3067\u753B\u50CF\u3068PDF\u306E\u4E21\u65B9\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3067\u304D\u307E\u3059\u3002\u753B\u50CF\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u30B5\u30A4\u30BA\u3068\u4F4D\u7F6E\u3092\u8ABF\u6574\u3067\u304D\u307E\u3059\u3002
-                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -3129,9 +3122,8 @@ news.get("/edit/:id", async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
-                    alert('PDF\u300C' + file.name + '\u300D\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u307E\u3057\u305F\uFF01\\n\\n\u203B \u7DE8\u96C6\u753B\u9762\u3068\u30D7\u30EC\u30D3\u30E5\u30FC\u3067PDF\u306E\u5185\u5BB9\u3092\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
