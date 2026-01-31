@@ -327,6 +327,14 @@ api.post('/', async (c) => {
     const content = formData.get('content') as string;
     const published = formData.get('published') === 'true';
     
+    // Debug: Check if GITHUB_TOKEN is available
+    if (!c.env.GITHUB_TOKEN) {
+      throw new Error('GITHUB_TOKEN is not set in environment');
+    }
+    
+    const tokenPrefix = c.env.GITHUB_TOKEN.substring(0, 7);
+    console.log('[DEBUG] Token prefix:', tokenPrefix);
+    
     // Insert to database
     const result = await c.env.DB.prepare(`
       INSERT INTO news_items (date, title, slug, content, published)
@@ -337,42 +345,8 @@ api.post('/', async (c) => {
       throw new Error('Failed to insert news item');
     }
     
-    // Generate HTML
-    const htmlContent = generateNewsHTML({ date, title, slug, content, published });
-    
-    // Commit to GitHub
-    await commitToGitHub(
-      c.env.GITHUB_TOKEN,
-      'kadaikaiketsu',
-      'izumo-taisha-tokyo-bunshi',
-      `news/${slug}.html`,
-      htmlContent,
-      `Add news: ${title} (${date})`
-    );
-    
-    // Update index.html and news.html
-    const errors: string[] = [];
-    
-    try {
-      await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    } catch (indexError) {
-      const errMsg = `index.html更新失敗: ${(indexError as Error).message}`;
-      console.error(errMsg);
-      errors.push(errMsg);
-    }
-    
-    try {
-      await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    } catch (newsError) {
-      const errMsg = `news.html更新失敗: ${(newsError as Error).message}`;
-      console.error(errMsg);
-      errors.push(errMsg);
-    }
-    
-    if (errors.length > 0) {
-      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(' / '))}`);
-    }
-    
+    // Note: HTML generation is now done by sync script, not here
+    // Just save to database and redirect
     return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
     console.error('Error creating news:', error);
@@ -408,41 +382,8 @@ api.post('/:id', async (c) => {
     }
     
     // Generate HTML
-    const htmlContent = generateNewsHTML({ date, title, slug, content, published });
-    
-    // Commit to GitHub
-    await commitToGitHub(
-      c.env.GITHUB_TOKEN,
-      'kadaikaiketsu',
-      'izumo-taisha-tokyo-bunshi',
-      `news/${slug}.html`,
-      htmlContent,
-      `Update news: ${title} (${date})`
-    );
-    
-    // Update index.html and news.html
-    const errors: string[] = [];
-    
-    try {
-      await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    } catch (indexError) {
-      const errMsg = `index.html更新失敗: ${(indexError as Error).message}`;
-      console.error(errMsg);
-      errors.push(errMsg);
-    }
-    
-    try {
-      await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    } catch (newsError) {
-      const errMsg = `news.html更新失敗: ${(newsError as Error).message}`;
-      console.error(errMsg);
-      errors.push(errMsg);
-    }
-    
-    if (errors.length > 0) {
-      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(' / '))}`);
-    }
-    
+    // Note: HTML generation is now done by sync script, not here
+    // Just save to database and redirect
     return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
     console.error('Error updating news:', error);
