@@ -2764,6 +2764,11 @@ dashboard.get("/", async (c) => {
     return authResult;
   }
   const session = authResult;
+  const successParam = c.req.query("success");
+  let successMessage = "";
+  if (successParam === "saved") {
+    successMessage = '<div class="success-message">\u2705 \u8A18\u4E8B\u3092\u4FDD\u5B58\u3057\u3066GitHub\u306B\u30D7\u30C3\u30B7\u30E5\u3057\u307E\u3057\u305F\uFF01</div>';
+  }
   const { results } = await c.env.DB.prepare(`
     SELECT id, date, title, slug, published, created_at
     FROM news_items
@@ -2793,6 +2798,7 @@ dashboard.get("/", async (c) => {
         </header>
         
         <div class="dashboard-content">
+            ${successMessage}
             <div class="actions">
                 <a href="/admin/news/new" class="button">\u2795 \u65B0\u898F\u8A18\u4E8B\u3092\u4F5C\u6210</a>
                 <a href="/" class="button button-secondary">\u{1F3E0} \u30B5\u30A4\u30C8\u3092\u8868\u793A</a>
@@ -3034,7 +3040,15 @@ news.get("/new", async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            // Sync content
             document.getElementById('content').value = quill.root.innerHTML;
+            
+            // Show loading state on submit button
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = '\u23F3 \u4FDD\u5B58\u4E2D...';
+            }
           });
           
           // Preview
@@ -3256,7 +3270,15 @@ news.get("/edit/:id", async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            // Sync content
             document.getElementById('content').value = quill.root.innerHTML;
+            
+            // Show loading state on submit button
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = '\u23F3 \u4FDD\u5B58\u4E2D...';
+            }
           });
           
           // Preview
@@ -3546,7 +3568,7 @@ api.post("/", async (c) => {
     );
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    return c.redirect("/admin/dashboard");
+    return c.redirect("/admin/dashboard?success=saved");
   } catch (error) {
     console.error("Error creating news:", error);
     return c.text("Error creating news: " + error.message, 500);
@@ -3584,7 +3606,7 @@ api.post("/:id", async (c) => {
     );
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    return c.redirect("/admin/dashboard");
+    return c.redirect("/admin/dashboard?success=saved");
   } catch (error) {
     console.error("Error updating news:", error);
     return c.text("Error updating news: " + error.message, 500);
@@ -3632,7 +3654,7 @@ api.post("/:id/delete", async (c) => {
     }
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    return c.redirect("/admin/dashboard");
+    return c.redirect("/admin/dashboard?success=saved");
   } catch (error) {
     console.error("Error deleting news:", error);
     return c.text("Error deleting news: " + error.message, 500);

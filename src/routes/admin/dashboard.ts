@@ -15,6 +15,13 @@ dashboard.get('/', async (c) => {
   
   const session = authResult;
   
+  // Check for success message
+  const successParam = c.req.query('success');
+  let successMessage = '';
+  if (successParam === 'saved') {
+    successMessage = '<div class="success-message">✅ 記事を保存してGitHubにプッシュしました！</div>';
+  }
+  
   // Get all news items from database
   const { results } = await c.env.DB.prepare(`
     SELECT id, date, title, slug, published, created_at
@@ -47,6 +54,7 @@ dashboard.get('/', async (c) => {
         </header>
         
         <div class="dashboard-content">
+            ${successMessage}
             <div class="actions">
                 <a href="/admin/news/new" class="button">➕ 新規記事を作成</a>
                 <a href="/" class="button button-secondary">🏠 サイトを表示</a>

@@ -209,7 +209,15 @@ news.get('/new', async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            // Sync content
             document.getElementById('content').value = quill.root.innerHTML;
+            
+            // Show loading state on submit button
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = '⏳ 保存中...';
+            }
           });
           
           // Preview
@@ -438,7 +446,15 @@ news.get('/edit/:id', async (c) => {
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
+            // Sync content
             document.getElementById('content').value = quill.root.innerHTML;
+            
+            // Show loading state on submit button
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.textContent = '⏳ 保存中...';
+            }
           });
           
           // Preview

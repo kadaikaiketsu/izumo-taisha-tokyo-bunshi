@@ -332,7 +332,7 @@ api.post('/', async (c) => {
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     
-    return c.redirect('/admin/dashboard');
+    return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
     console.error('Error creating news:', error);
     return c.text('Error creating news: ' + (error as Error).message, 500);
@@ -383,7 +383,7 @@ api.post('/:id', async (c) => {
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     
-    return c.redirect('/admin/dashboard');
+    return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
     console.error('Error updating news:', error);
     return c.text('Error updating news: ' + (error as Error).message, 500);
@@ -450,7 +450,7 @@ api.post('/:id/delete', async (c) => {
     await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
     await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
     
-    return c.redirect('/admin/dashboard');
+    return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
     console.error('Error deleting news:', error);
     return c.text('Error deleting news: ' + (error as Error).message, 500);

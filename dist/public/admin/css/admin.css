@@ -363,3 +363,37 @@ body {
     text-align: center;
   }
 }
+
+/* Success/Error Messages */
+.success-message {
+  background: #48bb78;
+  color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(72, 187, 120, 0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+.error-message {
+  background: #f56565;
+  color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(245, 101, 101, 0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
