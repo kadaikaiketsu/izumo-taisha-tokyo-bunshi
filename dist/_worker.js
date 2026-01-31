@@ -2765,9 +2765,13 @@ dashboard.get("/", async (c) => {
   }
   const session = authResult;
   const successParam = c.req.query("success");
+  const warningsParam = c.req.query("warnings");
   let successMessage = "";
   if (successParam === "saved") {
     successMessage = '<div class="success-message">\u2705 \u8A18\u4E8B\u3092\u4FDD\u5B58\u3057\u3066GitHub\u306B\u30D7\u30C3\u30B7\u30E5\u3057\u307E\u3057\u305F\uFF01</div>';
+    if (warningsParam) {
+      successMessage += `<div class="warning-message">\u26A0\uFE0F \u8B66\u544A: ${decodeURIComponent(warningsParam)}</div>`;
+    }
   }
   const { results } = await c.env.DB.prepare(`
     SELECT id, date, title, slug, published, created_at
@@ -3613,19 +3617,23 @@ api.post("/", async (c) => {
       htmlContent,
       `Add news: ${title} (${date})`
     );
+    const errors = [];
     try {
-      console.log("Updating index.html...");
       await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log("index.html updated successfully");
     } catch (indexError) {
-      console.error("Failed to update index.html:", indexError);
+      const errMsg = `index.html\u66F4\u65B0\u5931\u6557: ${indexError.message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
     }
     try {
-      console.log("Updating news.html...");
       await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log("news.html updated successfully");
     } catch (newsError) {
-      console.error("Failed to update news.html:", newsError);
+      const errMsg = `news.html\u66F4\u65B0\u5931\u6557: ${newsError.message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
+    }
+    if (errors.length > 0) {
+      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(" / "))}`);
     }
     return c.redirect("/admin/dashboard?success=saved");
   } catch (error) {
@@ -3663,19 +3671,23 @@ api.post("/:id", async (c) => {
       htmlContent,
       `Update news: ${title} (${date})`
     );
+    const errors = [];
     try {
-      console.log("Updating index.html...");
       await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log("index.html updated successfully");
     } catch (indexError) {
-      console.error("Failed to update index.html:", indexError);
+      const errMsg = `index.html\u66F4\u65B0\u5931\u6557: ${indexError.message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
     }
     try {
-      console.log("Updating news.html...");
       await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log("news.html updated successfully");
     } catch (newsError) {
-      console.error("Failed to update news.html:", newsError);
+      const errMsg = `news.html\u66F4\u65B0\u5931\u6557: ${newsError.message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
+    }
+    if (errors.length > 0) {
+      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(" / "))}`);
     }
     return c.redirect("/admin/dashboard?success=saved");
   } catch (error) {

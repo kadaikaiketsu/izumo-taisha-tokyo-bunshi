@@ -335,22 +335,26 @@ api.post('/', async (c) => {
     );
     
     // Update index.html and news.html
+    const errors: string[] = [];
+    
     try {
-      console.log('Updating index.html...');
       await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log('index.html updated successfully');
     } catch (indexError) {
-      console.error('Failed to update index.html:', indexError);
-      // Continue anyway
+      const errMsg = `index.html更新失敗: ${(indexError as Error).message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
     }
     
     try {
-      console.log('Updating news.html...');
       await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log('news.html updated successfully');
     } catch (newsError) {
-      console.error('Failed to update news.html:', newsError);
-      // Continue anyway
+      const errMsg = `news.html更新失敗: ${(newsError as Error).message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
+    }
+    
+    if (errors.length > 0) {
+      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(' / '))}`);
     }
     
     return c.redirect('/admin/dashboard?success=saved');
@@ -401,22 +405,26 @@ api.post('/:id', async (c) => {
     );
     
     // Update index.html and news.html
+    const errors: string[] = [];
+    
     try {
-      console.log('Updating index.html...');
       await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log('index.html updated successfully');
     } catch (indexError) {
-      console.error('Failed to update index.html:', indexError);
-      // Continue anyway
+      const errMsg = `index.html更新失敗: ${(indexError as Error).message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
     }
     
     try {
-      console.log('Updating news.html...');
       await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
-      console.log('news.html updated successfully');
     } catch (newsError) {
-      console.error('Failed to update news.html:', newsError);
-      // Continue anyway
+      const errMsg = `news.html更新失敗: ${(newsError as Error).message}`;
+      console.error(errMsg);
+      errors.push(errMsg);
+    }
+    
+    if (errors.length > 0) {
+      return c.redirect(`/admin/dashboard?success=saved&warnings=${encodeURIComponent(errors.join(' / '))}`);
     }
     
     return c.redirect('/admin/dashboard?success=saved');

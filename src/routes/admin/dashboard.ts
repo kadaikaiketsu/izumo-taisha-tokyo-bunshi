@@ -17,9 +17,13 @@ dashboard.get('/', async (c) => {
   
   // Check for success message
   const successParam = c.req.query('success');
+  const warningsParam = c.req.query('warnings');
   let successMessage = '';
   if (successParam === 'saved') {
     successMessage = '<div class="success-message">✅ 記事を保存してGitHubにプッシュしました！</div>';
+    if (warningsParam) {
+      successMessage += `<div class="warning-message">⚠️ 警告: ${decodeURIComponent(warningsParam)}</div>`;
+    }
   }
   
   // Get all news items from database
