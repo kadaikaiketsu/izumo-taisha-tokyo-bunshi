@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "izumo-taisha-tokyo-bunshi",
+  "main": "dist/_worker.js",
+  "compatibility_date": "2024-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
+  
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "izumo-cms",
+      "database_id": "b975bd8e-c199-48bd-af0d-d2140c0b0554"
+    }
+  ],
+  
+  "vars": {
+    "ALLOWED_EMAILS": "izumotokyo03@gmail.com,ueda@0120.co.jp"
+  }
+}
