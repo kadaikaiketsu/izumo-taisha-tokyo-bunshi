@@ -3548,7 +3548,8 @@ async function commitToGitHub(token, owner, repo, path, content, message) {
     const getResponse = await fetch(url, {
       headers: {
         "Authorization": `token ${token}`,
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "Izumo-Taisha-CMS"
       }
     });
     if (getResponse.ok) {
@@ -3570,7 +3571,8 @@ async function commitToGitHub(token, owner, repo, path, content, message) {
     headers: {
       "Authorization": `token ${token}`,
       "Accept": "application/vnd.github.v3+json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "User-Agent": "Izumo-Taisha-CMS"
     },
     body: JSON.stringify(body)
   });

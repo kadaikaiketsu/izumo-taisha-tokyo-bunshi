@@ -252,6 +252,7 @@ async function commitToGitHub(
       headers: {
         'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Izumo-Taisha-CMS',
       },
     });
     
@@ -280,6 +281,7 @@ async function commitToGitHub(
       'Authorization': `token ${token}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json',
+      'User-Agent': 'Izumo-Taisha-CMS',
     },
     body: JSON.stringify(body),
   });
