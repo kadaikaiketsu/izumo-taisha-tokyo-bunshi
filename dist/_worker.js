@@ -3472,11 +3472,13 @@ async function updateIndexHTML(db, token) {
   const getResponse = await fetch(getUrl, {
     headers: {
       "Authorization": `token ${token}`,
-      "Accept": "application/vnd.github.v3+json"
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": "Izumo-Taisha-CMS"
     }
   });
   if (!getResponse.ok) {
-    throw new Error("Failed to fetch index.html from GitHub");
+    const errorText = await getResponse.text();
+    throw new Error(`Failed to fetch index.html from GitHub (${getResponse.status}): ${errorText}`);
   }
   const fileData = await getResponse.json();
   const currentContent = decodeURIComponent(escape(atob(fileData.content)));
@@ -3512,11 +3514,13 @@ async function updateNewsHTML(db, token) {
   const getResponse = await fetch(getUrl, {
     headers: {
       "Authorization": `token ${token}`,
-      "Accept": "application/vnd.github.v3+json"
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": "Izumo-Taisha-CMS"
     }
   });
   if (!getResponse.ok) {
-    throw new Error("Failed to fetch news.html from GitHub");
+    const errorText = await getResponse.text();
+    throw new Error(`Failed to fetch news.html from GitHub (${getResponse.status}): ${errorText}`);
   }
   const fileData = await getResponse.json();
   const currentContent = decodeURIComponent(escape(atob(fileData.content)));
