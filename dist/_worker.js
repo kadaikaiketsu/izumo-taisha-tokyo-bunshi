@@ -2776,7 +2776,7 @@ dashboard.get("/", async (c) => {
   const { results } = await c.env.DB.prepare(`
     SELECT id, date, title, slug, published, created_at
     FROM news_items
-    ORDER BY date DESC, created_at DESC
+    ORDER BY date DESC, id DESC
   `).all();
   const newsItems = results || [];
   return c.html(`
