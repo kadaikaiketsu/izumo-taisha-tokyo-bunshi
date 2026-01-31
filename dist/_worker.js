@@ -2975,7 +2975,32 @@ news.get("/new", async (c) => {
           
           // Add custom fonts CSS with Japanese names
           var fontStyles = document.createElement('style');
-          fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
+          var cssText = '';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=sans-serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=sans-serif]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53(\u6A19\u6E96)" !important; }';
+          cssText += '.ql-font-sans-serif { font-family: sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=noto-sans]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=noto-sans]::before { content: "Noto Sans(\u30B4\u30B7\u30C3\u30AF)" !important; }';
+          cssText += '.ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=yu-gothic]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=yu-gothic]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; }';
+          cssText += '.ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=meiryo]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=meiryo]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; }';
+          cssText += '.ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=hiragino]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=hiragino]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; }';
+          cssText += '.ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=serif]::before { content: "\u660E\u671D\u4F53(\u6A19\u6E96)" !important; }';
+          cssText += '.ql-font-serif { font-family: serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=noto-serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=noto-serif]::before { content: "Noto Serif(\u660E\u671D)" !important; }';
+          cssText += '.ql-font-noto-serif { font-family: "Noto Serif JP", serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=yu-mincho]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=yu-mincho]::before { content: "\u6E38\u660E\u671D" !important; }';
+          cssText += '.ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; }';
+          fontStyles.textContent = cssText;
           document.head.appendChild(fontStyles);
           
           // Image resize functionality
@@ -3158,9 +3183,34 @@ news.get("/edit/:id", async (c) => {
             }
           });
           
-          // Add custom fonts CSS
+          // Add custom fonts CSS with Japanese names
           var fontStyles = document.createElement('style');
-          fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
+          var cssText = '';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=sans-serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=sans-serif]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53(\u6A19\u6E96)" !important; }';
+          cssText += '.ql-font-sans-serif { font-family: sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=noto-sans]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=noto-sans]::before { content: "Noto Sans(\u30B4\u30B7\u30C3\u30AF)" !important; }';
+          cssText += '.ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=yu-gothic]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=yu-gothic]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; }';
+          cssText += '.ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=meiryo]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=meiryo]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; }';
+          cssText += '.ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=hiragino]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=hiragino]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; }';
+          cssText += '.ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=serif]::before { content: "\u660E\u671D\u4F53(\u6A19\u6E96)" !important; }';
+          cssText += '.ql-font-serif { font-family: serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=noto-serif]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=noto-serif]::before { content: "Noto Serif(\u660E\u671D)" !important; }';
+          cssText += '.ql-font-noto-serif { font-family: "Noto Serif JP", serif; }';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=yu-mincho]::before,';
+          cssText += '.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=yu-mincho]::before { content: "\u6E38\u660E\u671D" !important; }';
+          cssText += '.ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; }';
+          fontStyles.textContent = cssText;
           document.head.appendChild(fontStyles);
           
           // Load existing content
