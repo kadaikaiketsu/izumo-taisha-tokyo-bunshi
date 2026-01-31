@@ -3593,6 +3593,87 @@ api.post("/:id/delete", async (c) => {
 });
 var news_default2 = api;
 
+// src/routes/news.ts
+var dynamicNews = new Hono2();
+dynamicNews.get("/:slug.html", async (c) => {
+  const slug = c.req.param("slug");
+  const { results } = await c.env.DB.prepare(`
+    SELECT date, title, slug, content, published
+    FROM news_items
+    WHERE slug = ? AND published = 1
+  `).bind(slug).all();
+  if (!results || results.length === 0) {
+    return c.notFound();
+  }
+  const item = results[0];
+  const html = `<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${item.title} | \u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</title>
+    <meta name="description" content="${item.title}">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../images/logo.png" alt="\u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960" class="logo-img">
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">\u30DB\u30FC\u30E0</a></li>
+                    <li><a href="../news.html">\u65B0\u7740\u60C5\u5831</a></li>
+                    <li><a href="../about.html">\u51FA\u96F2\u5927\u793E</a></li>
+                    <li><a href="../history.html">\u7531\u7DD2</a></li>
+                    <li><a href="../omamori.html">\u5FA1\u672D\u30FB\u5FA1\u5B88</a></li>
+                    <li><a href="../prayer.html">\u5FA1\u7948\u9858</a></li>
+                    <li><a href="../wedding.html">\u795E\u524D\u7D50\u5A5A\u5F0F</a></li>
+                    <li><a href="../events.html">\u5E74\u9593\u884C\u4E8B</a></li>
+                    <li><a href="../funeral.html">\u795E\u846C\u796D</a></li>
+                    <li><a href="../access.html">\u4EA4\u901A\u6A5F\u95A2</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="news-detail">
+        <article>
+            <header>
+                <time>${item.date}</time>
+                <h1>${item.title}</h1>
+            </header>
+            <div class="news-content">
+                ${item.content}
+            </div>
+        </article>
+        <div class="back-link">
+            <a href="../news.html">\u2190 \u65B0\u7740\u60C5\u5831\u4E00\u89A7\u306B\u623B\u308B</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>\u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</h4>
+                <p>\u3012106-0032<br>
+                \u6771\u4EAC\u90FD\u6E2F\u533A\u516D\u672C\u67287-18-5<br>
+                TEL: 03-3401-9301</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright (C) 2002-2025 Izumo Oyashiro Tokyo. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>`;
+  return c.html(html);
+});
+var news_default3 = dynamicNews;
+
 // src/index.ts
 var app = new Hono2();
 app.use("/api/*", cors());
@@ -3600,6 +3681,7 @@ app.route("/admin", auth_default);
 app.route("/admin/dashboard", dashboard_default);
 app.route("/admin/news", news_default);
 app.route("/api/news", news_default2);
+app.route("/news", news_default3);
 app.use("/*", module());
 var src_default = app;
 export {
