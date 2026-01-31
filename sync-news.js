@@ -24,7 +24,15 @@ console.log(`✅ Found ${newsItems.length} published news items`);
 
 // Generate news HTML function
 function generateNewsHTML(item) {
-  return `<!DOCTYPE html>
+  // Format date for display
+  const displayDate = item.date.replace(/-/g, '.');
+  
+  // Check if content already includes full HTML structure
+  const hasFullStructure = item.content.includes('<section class="section">');
+  
+  if (hasFullStructure) {
+    // Use simple template for content that already has full structure
+    return `<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -88,6 +96,107 @@ function generateNewsHTML(item) {
     </footer>
 </body>
 </html>`;
+  } else {
+    // Use wrapped template for simple content
+    return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${item.title} | 出雲大社東京分祠</title>
+    <meta name="description" content="${item.title}">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../images/logo.png" alt="出雲大社東京分祠" class="logo-img">
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">ホーム</a></li>
+                    <li><a href="../news.html">新着情報</a></li>
+                    <li><a href="../about.html">出雲大社</a></li>
+                    <li><a href="../history.html">由緒</a></li>
+                    <li><a href="../omamori.html">御札・御守</a></li>
+                    <li><a href="../prayer.html">御祈願</a></li>
+                    <li><a href="../wedding.html">神前結婚式</a></li>
+                    <li><a href="../events.html">年間行事</a></li>
+                    <li><a href="../funeral.html">神葬祭</a></li>
+                    <li><a href="../access.html">交通機関</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="news-detail">
+        <article>
+            <header>
+                <time>${item.date}</time>
+                <h1>${item.title}</h1>
+            </header>
+            <div class="news-content">
+                <section class="section">
+            <div class="container-narrow">
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">${item.title}</h1>
+                <p style="color: #666; margin-bottom: 2rem;">投稿日: ${displayDate}</p>
+                
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-content">
+                        ${item.content}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 連絡先情報 -->
+        <section class="section section-alt">
+            <div class="container-narrow">
+                <h3>お問い合わせ</h3>
+                <p><strong>出雲大社東京分祠</strong><br>
+                〒106-0032 東京都港区六本木7-18-5<br>
+                TEL: <a href="tel:03-3401-9301">03-3401-9301</a><br>
+                受付時間: 午前9時～午後5時</p>
+            </div>
+        </section>
+            </div>
+        </article>
+        <div class="back-link">
+            <a href="../news.html">← 新着情報一覧に戻る</a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>出雲大社東京分祠</h4>
+                <p>〒106-0032<br>
+                東京都港区六本木7-18-5<br>
+                TEL: 03-3401-9301</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 出雲大社東京分祠 All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>`;
+  }
 }
 
 // Create news directory if not exists
