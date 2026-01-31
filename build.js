@@ -44,7 +44,7 @@ esbuild.build({
   });
   
   // Copy directories
-  const dirsToCopy = ['css', 'news', 'public', 'images', 'js', 'events'];
+  const dirsToCopy = ['css', 'news', 'notices', 'public', 'images', 'js', 'events'];
   dirsToCopy.forEach(dir => {
     if (fs.existsSync(dir)) {
       fs.cpSync(dir, path.join('dist', dir), { recursive: true });
