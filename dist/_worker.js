@@ -2566,8 +2566,10 @@ var SESSION_COOKIE_NAME = "admin_session";
 var SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 async function createSession(c, session) {
   const sessionData = JSON.stringify(session);
-  const encoded = btoa(sessionData);
-  setCookie(c, SESSION_COOKIE_NAME, encoded, {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(sessionData);
+  const base64 = btoa(String.fromCharCode(...data));
+  setCookie(c, SESSION_COOKIE_NAME, base64, {
     httpOnly: true,
     secure: true,
     sameSite: "Lax",
@@ -2581,7 +2583,13 @@ async function getSession(c) {
     return null;
   }
   try {
-    const decoded = atob(sessionCookie);
+    const binary = atob(sessionCookie);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const decoder = new TextDecoder();
+    const decoded = decoder.decode(bytes);
     return JSON.parse(decoded);
   } catch {
     return null;
@@ -2683,10 +2691,16 @@ auth.get("/callback", async (c) => {
       }
     });
     if (!userResponse.ok) {
+      const errorText = await userResponse.text();
+      console.error("User info error:", errorText);
       throw new Error("Failed to get user info");
     }
     const user = await userResponse.json();
+    console.log("User email:", user.email);
+    console.log("Allowed emails:", c.env.ALLOWED_EMAILS);
     const allowedEmails = c.env.ALLOWED_EMAILS.split(",").map((e) => e.trim());
+    console.log("Parsed allowed emails:", allowedEmails);
+    console.log("Email check result:", allowedEmails.includes(user.email));
     if (!allowedEmails.includes(user.email)) {
       return c.html(`
         <!DOCTYPE html>
@@ -2715,7 +2729,25 @@ auth.get("/callback", async (c) => {
     return c.redirect("/admin/dashboard");
   } catch (error) {
     console.error("OAuth error:", error);
-    return c.redirect("/admin/login?error=auth_failed");
+    console.error("Error details:", error instanceof Error ? error.message : String(error));
+    return c.html(`
+      <!DOCTYPE html>
+      <html lang="ja">
+      <head>
+          <meta charset="UTF-8">
+          <title>\u8A8D\u8A3C\u30A8\u30E9\u30FC</title>
+          <link href="/admin/css/admin.css" rel="stylesheet">
+      </head>
+      <body class="error-page">
+          <div class="error-container">
+              <h1>\u274C \u8A8D\u8A3C\u30A8\u30E9\u30FC</h1>
+              <p>\u30ED\u30B0\u30A4\u30F3\u51E6\u7406\u4E2D\u306B\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\u3002</p>
+              <p style="color: #718096; font-size: 14px;">\u30A8\u30E9\u30FC: ${error instanceof Error ? error.message : String(error)}</p>
+              <a href="/admin/login" class="button">\u30ED\u30B0\u30A4\u30F3\u753B\u9762\u306B\u623B\u308B</a>
+          </div>
+      </body>
+      </html>
+    `);
   }
 });
 auth.get("/logout", async (c) => {

@@ -99,13 +99,21 @@ auth.get('/callback', async (c) => {
     });
     
     if (!userResponse.ok) {
+      const errorText = await userResponse.text();
+      console.error('User info error:', errorText);
       throw new Error('Failed to get user info');
     }
     
     const user = await userResponse.json() as GoogleUserInfo;
     
+    console.log('User email:', user.email);
+    console.log('Allowed emails:', c.env.ALLOWED_EMAILS);
+    
     // Check if email is allowed
     const allowedEmails = c.env.ALLOWED_EMAILS.split(',').map(e => e.trim());
+    
+    console.log('Parsed allowed emails:', allowedEmails);
+    console.log('Email check result:', allowedEmails.includes(user.email));
     
     if (!allowedEmails.includes(user.email)) {
       return c.html(`
@@ -138,7 +146,25 @@ auth.get('/callback', async (c) => {
     return c.redirect('/admin/dashboard');
   } catch (error) {
     console.error('OAuth error:', error);
-    return c.redirect('/admin/login?error=auth_failed');
+    console.error('Error details:', error instanceof Error ? error.message : String(error));
+    return c.html(`
+      <!DOCTYPE html>
+      <html lang="ja">
+      <head>
+          <meta charset="UTF-8">
+          <title>認証エラー</title>
+          <link href="/admin/css/admin.css" rel="stylesheet">
+      </head>
+      <body class="error-page">
+          <div class="error-container">
+              <h1>❌ 認証エラー</h1>
+              <p>ログイン処理中にエラーが発生しました。</p>
+              <p style="color: #718096; font-size: 14px;">エラー: ${error instanceof Error ? error.message : String(error)}</p>
+              <a href="/admin/login" class="button">ログイン画面に戻る</a>
+          </div>
+      </body>
+      </html>
+    `);
   }
 });
 

@@ -9,9 +9,12 @@ const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 export async function createSession(c: Context<{ Bindings: Bindings }>, session: Session): Promise<void> {
   const sessionData = JSON.stringify(session);
-  const encoded = btoa(sessionData);
+  // Use TextEncoder and base64 encoding to support UTF-8
+  const encoder = new TextEncoder();
+  const data = encoder.encode(sessionData);
+  const base64 = btoa(String.fromCharCode(...data));
   
-  setCookie(c, SESSION_COOKIE_NAME, encoded, {
+  setCookie(c, SESSION_COOKIE_NAME, base64, {
     httpOnly: true,
     secure: true,
     sameSite: 'Lax',
@@ -28,7 +31,14 @@ export async function getSession(c: Context<{ Bindings: Bindings }>): Promise<Se
   }
   
   try {
-    const decoded = atob(sessionCookie);
+    // Decode base64 and convert back to UTF-8
+    const binary = atob(sessionCookie);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const decoder = new TextDecoder();
+    const decoded = decoder.decode(bytes);
     return JSON.parse(decoded) as Session;
   } catch {
     return null;
