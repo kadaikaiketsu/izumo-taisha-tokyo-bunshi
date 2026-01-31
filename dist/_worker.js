@@ -2882,14 +2882,11 @@ news.get("/new", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <div style="margin-bottom: 10px;">
-                            <button type="button" id="pdfUploadBtn" class="button button-secondary" style="padding: 8px 16px; font-size: 14px;">
-                                \u{1F4CE} PDF\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9
-                            </button>
-                            <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
-                        </div>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required></textarea>
+                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
+                            \u{1F4A1} \u30D2\u30F3\u30C8: \u753B\u50CF\u30DC\u30BF\u30F3\uFF08\u{1F5BC}\uFE0F\uFF09\u3067\u753B\u50CF\u3068PDF\u306E\u4E21\u65B9\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3067\u304D\u307E\u3059\u3002\u753B\u50CF\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u30B5\u30A4\u30BA\u3068\u4F4D\u7F6E\u3092\u8ABF\u6574\u3067\u304D\u307E\u3059\u3002
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -2913,7 +2910,6 @@ news.get("/new", async (c) => {
             const title = e.target.value;
             const slugInput = document.getElementById('slug');
             
-            // Only auto-generate if slug is empty
             if (!slugInput.value) {
               const slug = title
                 .toLowerCase()
@@ -2923,62 +2919,94 @@ news.get("/new", async (c) => {
             }
           });
           
+          // Custom image handler (supports both images and PDFs)
+          function imageHandler() {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*,application/pdf');
+            input.click();
+            
+            input.onchange = async () => {
+              const file = input.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const base64 = e.target.result;
+                  const range = quill.getSelection(true);
+                  
+                  if (file.type === 'application/pdf') {
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                  } else {
+                    quill.insertEmbed(range.index, 'image', base64);
+                    quill.setSelection(range.index + 1);
+                  }
+                };
+                reader.readAsDataURL(file);
+              }
+            };
+          }
+          
           // Initialize Quill editor
           var quill = new Quill('#editor', {
             theme: 'snow',
             placeholder: '\u672C\u6587\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044...',
             modules: {
-              toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                [{ 'font': ['sans-serif', 'serif', 'noto-sans', 'noto-serif', 'yu-gothic', 'yu-mincho', 'meiryo', 'hiragino'] }],
-                [{ 'size': ['small', false, 'large', 'huge'] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'color': [] }, { 'background': [] }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'align': [] }],
-                ['link', 'image'],
-                ['clean']
-              ]
+              toolbar: {
+                container: [
+                  [{ 'header': [1, 2, 3, false] }],
+                  [{ 'font': [] }],
+                  [{ 'size': ['small', false, 'large', 'huge'] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
+                handlers: {
+                  image: imageHandler
+                }
+              }
             }
           });
           
-          // Add custom fonts CSS
+          // Add custom fonts CSS with Japanese names
           var fontStyles = document.createElement('style');
-          fontStyles.innerHTML = \`
-            .ql-font-sans-serif { font-family: sans-serif; }
-            .ql-font-serif { font-family: serif; }
-            .ql-font-noto-sans { font-family: 'Noto Sans JP', sans-serif; }
-            .ql-font-noto-serif { font-family: 'Noto Serif JP', serif; }
-            .ql-font-yu-gothic { font-family: 'Yu Gothic', '\u6E38\u30B4\u30B7\u30C3\u30AF', YuGothic, sans-serif; }
-            .ql-font-yu-mincho { font-family: 'Yu Mincho', '\u6E38\u660E\u671D', YuMincho, serif; }
-            .ql-font-meiryo { font-family: Meiryo, '\u30E1\u30A4\u30EA\u30AA', sans-serif; }
-            .ql-font-hiragino { font-family: 'Hiragino Kaku Gothic ProN', '\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3', sans-serif; }
-          \`;
+          fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
+          
+          // Register custom fonts
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
+          
+          // Image resize functionality
+          document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG' && e.target.closest('.ql-editor')) {
+              const img = e.target;
+              const width = prompt('\u753B\u50CF\u306E\u5E45\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044:\\n1: 25%\\n2: 50%\\n3: 75%\\n4: 100%\uFF08\u30C7\u30D5\u30A9\u30EB\u30C8\uFF09', '4');
+              if (width) {
+                const widthOptions = ['25%', '50%', '75%', '100%'];
+                const selectedWidth = widthOptions[parseInt(width) - 1] || '100%';
+                img.style.width = selectedWidth;
+                img.style.height = 'auto';
+              }
+              
+              const align = prompt('\u753B\u50CF\u306E\u914D\u7F6E\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044:\\n1: \u5DE6\u5BC4\u305B\\n2: \u4E2D\u592E\\n3: \u53F3\u5BC4\u305B', '2');
+              if (align) {
+                const alignOptions = ['left', 'center', 'right'];
+                const selectedAlign = alignOptions[parseInt(align) - 1] || 'center';
+                img.style.display = 'block';
+                img.style.marginLeft = selectedAlign === 'center' ? 'auto' : (selectedAlign === 'right' ? 'auto' : '0');
+                img.style.marginRight = selectedAlign === 'center' ? 'auto' : (selectedAlign === 'right' ? '0' : 'auto');
+              }
+            }
+          });
           
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
             document.getElementById('content').value = quill.root.innerHTML;
-          });
-          
-          // PDF Upload
-          document.getElementById('pdfUploadBtn').addEventListener('click', function() {
-            document.getElementById('pdfInput').click();
-          });
-          
-          document.getElementById('pdfInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.type === 'application/pdf') {
-              const reader = new FileReader();
-              reader.onload = function(event) {
-                const base64 = event.target.result;
-                const range = quill.getSelection(true);
-                quill.insertText(range.index, file.name, 'link', base64);
-                quill.insertText(range.index + file.name.length, ' (PDF) ');
-                alert('PDF\u304C\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3055\u308C\u307E\u3057\u305F\uFF01');
-              };
-              reader.readAsDataURL(file);
-            }
           });
           
           // Preview
@@ -2987,31 +3015,7 @@ news.get("/new", async (c) => {
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const content = quill.root.innerHTML;
             
-            const previewHTML = \`<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>\u30D7\u30EC\u30D3\u30E5\u30FC: \${title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
-        .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; }
-        .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; }
-        .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .preview-content img { max-width: 100%; height: auto; }
-        .preview-content a { color: #8B4513; text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <div class="preview-header">
-        <div class="preview-date">\${date}</div>
-        <h1 class="preview-title">\${title}</h1>
-    </div>
-    <div class="preview-content">\${content}</div>
-</body>
-</html>\`;
+            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
             
             const previewWindow = window.open('', 'preview', 'width=900,height=700');
             previewWindow.document.write(previewHTML);
@@ -3080,14 +3084,11 @@ news.get("/edit/:id", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <div style="margin-bottom: 10px;">
-                            <button type="button" id="pdfUploadBtn" class="button button-secondary" style="padding: 8px 16px; font-size: 14px;">
-                                \u{1F4CE} PDF\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9
-                            </button>
-                            <input type="file" id="pdfInput" accept=".pdf" style="display: none;">
-                        </div>
                         <div id="editor" style="height: 400px; background: white;"></div>
                         <textarea id="content" name="content" style="display: none;" required>${item.content || ""}</textarea>
+                        <small style="color: #718096; font-size: 13px; margin-top: 8px; display: block;">
+                            \u{1F4A1} \u30D2\u30F3\u30C8: \u753B\u50CF\u30DC\u30BF\u30F3\uFF08\u{1F5BC}\uFE0F\uFF09\u3067\u753B\u50CF\u3068PDF\u306E\u4E21\u65B9\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3067\u304D\u307E\u3059\u3002\u753B\u50CF\u3092\u30AF\u30EA\u30C3\u30AF\u3059\u308B\u3068\u30B5\u30A4\u30BA\u3068\u4F4D\u7F6E\u3092\u8ABF\u6574\u3067\u304D\u307E\u3059\u3002
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -3106,38 +3107,67 @@ news.get("/edit/:id", async (c) => {
         
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"><\/script>
         <script>
+          // Custom image handler
+          function imageHandler() {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*,application/pdf');
+            input.click();
+            
+            input.onchange = async () => {
+              const file = input.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const base64 = e.target.result;
+                  const range = quill.getSelection(true);
+                  
+                  if (file.type === 'application/pdf') {
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                  } else {
+                    quill.insertEmbed(range.index, 'image', base64);
+                    quill.setSelection(range.index + 1);
+                  }
+                };
+                reader.readAsDataURL(file);
+              }
+            };
+          }
+          
           // Initialize Quill editor
           var quill = new Quill('#editor', {
             theme: 'snow',
             placeholder: '\u672C\u6587\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044...',
             modules: {
-              toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                [{ 'font': ['sans-serif', 'serif', 'noto-sans', 'noto-serif', 'yu-gothic', 'yu-mincho', 'meiryo', 'hiragino'] }],
-                [{ 'size': ['small', false, 'large', 'huge'] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'color': [] }, { 'background': [] }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'align': [] }],
-                ['link', 'image'],
-                ['clean']
-              ]
+              toolbar: {
+                container: [
+                  [{ 'header': [1, 2, 3, false] }],
+                  [{ 'font': [] }],
+                  [{ 'size': ['small', false, 'large', 'huge'] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                  [{ 'align': [] }],
+                  ['link', 'image'],
+                  ['clean']
+                ],
+                handlers: {
+                  image: imageHandler
+                }
+              }
             }
           });
           
           // Add custom fonts CSS
           var fontStyles = document.createElement('style');
-          fontStyles.innerHTML = \`
-            .ql-font-sans-serif { font-family: sans-serif; }
-            .ql-font-serif { font-family: serif; }
-            .ql-font-noto-sans { font-family: 'Noto Sans JP', sans-serif; }
-            .ql-font-noto-serif { font-family: 'Noto Serif JP', serif; }
-            .ql-font-yu-gothic { font-family: 'Yu Gothic', '\u6E38\u30B4\u30B7\u30C3\u30AF', YuGothic, sans-serif; }
-            .ql-font-yu-mincho { font-family: 'Yu Mincho', '\u6E38\u660E\u671D', YuMincho, serif; }
-            .ql-font-meiryo { font-family: Meiryo, '\u30E1\u30A4\u30EA\u30AA', sans-serif; }
-            .ql-font-hiragino { font-family: 'Hiragino Kaku Gothic ProN', '\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3', sans-serif; }
-          \`;
+          fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
+          
+          // Register custom fonts
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
           
           // Load existing content
           const existingContent = document.getElementById('content').value;
@@ -3145,29 +3175,32 @@ news.get("/edit/:id", async (c) => {
             quill.root.innerHTML = existingContent;
           }
           
+          // Image resize functionality
+          document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG' && e.target.closest('.ql-editor')) {
+              const img = e.target;
+              const width = prompt('\u753B\u50CF\u306E\u5E45\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044:\\n1: 25%\\n2: 50%\\n3: 75%\\n4: 100%\uFF08\u30C7\u30D5\u30A9\u30EB\u30C8\uFF09', '4');
+              if (width) {
+                const widthOptions = ['25%', '50%', '75%', '100%'];
+                const selectedWidth = widthOptions[parseInt(width) - 1] || '100%';
+                img.style.width = selectedWidth;
+                img.style.height = 'auto';
+              }
+              
+              const align = prompt('\u753B\u50CF\u306E\u914D\u7F6E\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044:\\n1: \u5DE6\u5BC4\u305B\\n2: \u4E2D\u592E\\n3: \u53F3\u5BC4\u305B', '2');
+              if (align) {
+                const alignOptions = ['left', 'center', 'right'];
+                const selectedAlign = alignOptions[parseInt(align) - 1] || 'center';
+                img.style.display = 'block';
+                img.style.marginLeft = selectedAlign === 'center' ? 'auto' : (selectedAlign === 'right' ? 'auto' : '0');
+                img.style.marginRight = selectedAlign === 'center' ? 'auto' : (selectedAlign === 'right' ? '0' : 'auto');
+              }
+            }
+          });
+          
           // Sync Quill content to hidden textarea on form submit
           document.querySelector('form').addEventListener('submit', function(e) {
             document.getElementById('content').value = quill.root.innerHTML;
-          });
-          
-          // PDF Upload
-          document.getElementById('pdfUploadBtn').addEventListener('click', function() {
-            document.getElementById('pdfInput').click();
-          });
-          
-          document.getElementById('pdfInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.type === 'application/pdf') {
-              const reader = new FileReader();
-              reader.onload = function(event) {
-                const base64 = event.target.result;
-                const range = quill.getSelection(true);
-                quill.insertText(range.index, file.name, 'link', base64);
-                quill.insertText(range.index + file.name.length, ' (PDF) ');
-                alert('PDF\u304C\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3055\u308C\u307E\u3057\u305F\uFF01');
-              };
-              reader.readAsDataURL(file);
-            }
           });
           
           // Preview
@@ -3176,31 +3209,7 @@ news.get("/edit/:id", async (c) => {
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const content = quill.root.innerHTML;
             
-            const previewHTML = \`<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>\u30D7\u30EC\u30D3\u30E5\u30FC: \${title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
-        .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; }
-        .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; }
-        .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .preview-content img { max-width: 100%; height: auto; }
-        .preview-content a { color: #8B4513; text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <div class="preview-header">
-        <div class="preview-date">\${date}</div>
-        <h1 class="preview-title">\${title}</h1>
-    </div>
-    <div class="preview-content">\${content}</div>
-</body>
-</html>\`;
+            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
             
             const previewWindow = window.open('', 'preview', 'width=900,height=700');
             previewWindow.document.write(previewHTML);
