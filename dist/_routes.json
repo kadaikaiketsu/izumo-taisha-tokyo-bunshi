@@ -2,10 +2,7 @@
   "version": 1,
   "include": [
     "/admin/*",
-    "/api/*",
-    "/news/*.html"
+    "/api/*"
   ],
-  "exclude": [
-    "/news.html"
-  ]
+  "exclude": []
 }
