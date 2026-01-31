@@ -3487,16 +3487,14 @@ async function updateIndexHTML(db, token) {
   const fileData = await getResponse.json();
   const currentContent = decodeURIComponent(escape(atob(fileData.content)));
   const newsListHTML = newsItems.map((item) => `
-                    <li class="news-item">
-                        <a href="news/${item.slug}.html">
-                            <span class="news-date">${item.date}</span>
-                            <span class="news-title">${item.title}</span>
-                        </a>
-                    </li>`).join("");
+                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
+                                    <span style="color: #999; font-size: 0.85rem;">${item.date}</span><br>
+                                    <a href="news/${item.slug}.html" style="color: var(--text-dark); text-decoration: none;">${item.title}</a>
+                                </li>`).join("");
   const updatedContent = currentContent.replace(
-    /<ul class="news-list">[\s\S]*?<\/ul>/,
-    `<ul class="news-list">${newsListHTML}
-                </ul>`
+    /(<h3[^>]*>《新着情報》<\/h3>\s*<ul[^>]*>)([\s\S]*?)(<li[^>]*>\s*<a href="news\.html")/,
+    `$1${newsListHTML}
+                                $3`
   );
   await commitToGitHub(
     token,
