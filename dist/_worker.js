@@ -2848,7 +2848,6 @@ news.get("/new", async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>\u65B0\u898F\u8A18\u4E8B\u4F5C\u6210 | \u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"><\/script>
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -2882,7 +2881,10 @@ news.get("/new", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <textarea id="content" name="content"></textarea>
+                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required></textarea>
+                        <small style="color: #718096; font-size: 13px;">
+                            \u203B HTML\u30BF\u30B0\u3092\u4F7F\u7528\u3067\u304D\u307E\u3059\uFF08\u4F8B: &lt;p&gt;\u6BB5\u843D&lt;/p&gt;\u3001&lt;br&gt;\u6539\u884C\u3001&lt;a href="..."&gt;\u30EA\u30F3\u30AF&lt;/a&gt;\uFF09
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -2914,22 +2916,6 @@ news.get("/new", async (c) => {
               slugInput.value = slug;
             }
           });
-          
-          // Initialize TinyMCE
-          tinymce.init({
-            selector: '#content',
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif; font-size: 14px; }',
-            language: 'ja',
-            branding: false
-          });
         <\/script>
     </body>
     </html>
@@ -2957,7 +2943,6 @@ news.get("/edit/:id", async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>\u8A18\u4E8B\u7DE8\u96C6: ${item.title} | \u51FA\u96F2\u5927\u793E\u6771\u4EAC\u5206\u7960</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"><\/script>
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -2993,7 +2978,10 @@ news.get("/edit/:id", async (c) => {
                     
                     <div class="form-group">
                         <label for="content">\u{1F4C4} \u672C\u6587 *</label>
-                        <textarea id="content" name="content">${item.content || ""}</textarea>
+                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required>${item.content || ""}</textarea>
+                        <small style="color: #718096; font-size: 13px;">
+                            \u203B HTML\u30BF\u30B0\u3092\u4F7F\u7528\u3067\u304D\u307E\u3059\uFF08\u4F8B: &lt;p&gt;\u6BB5\u843D&lt;/p&gt;\u3001&lt;br&gt;\u6539\u884C\u3001&lt;a href="..."&gt;\u30EA\u30F3\u30AF&lt;/a&gt;\uFF09
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -3009,23 +2997,6 @@ news.get("/edit/:id", async (c) => {
             </div>
         </div>
         
-        <script>
-          // Initialize TinyMCE
-          tinymce.init({
-            selector: '#content',
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif; font-size: 14px; }',
-            language: 'ja',
-            branding: false
-          });
-        <\/script>
     </body>
     </html>
   `);

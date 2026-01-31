@@ -23,7 +23,6 @@ news.get('/new', async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>新規記事作成 | 出雲大社東京分祠</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -57,7 +56,10 @@ news.get('/new', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
-                        <textarea id="content" name="content"></textarea>
+                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required></textarea>
+                        <small style="color: #718096; font-size: 13px;">
+                            ※ HTMLタグを使用できます（例: &lt;p&gt;段落&lt;/p&gt;、&lt;br&gt;改行、&lt;a href="..."&gt;リンク&lt;/a&gt;）
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -88,22 +90,6 @@ news.get('/new', async (c) => {
                 .replace(/^-|-$/g, '');
               slugInput.value = slug;
             }
-          });
-          
-          // Initialize TinyMCE
-          tinymce.init({
-            selector: '#content',
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif; font-size: 14px; }',
-            language: 'ja',
-            branding: false
           });
         </script>
     </body>
@@ -140,7 +126,6 @@ news.get('/edit/:id', async (c) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>記事編集: ${item.title} | 出雲大社東京分祠</title>
         <link href="/admin/css/admin.css" rel="stylesheet">
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     </head>
     <body class="dashboard">
         <header class="dashboard-header">
@@ -176,7 +161,10 @@ news.get('/edit/:id', async (c) => {
                     
                     <div class="form-group">
                         <label for="content">📄 本文 *</label>
-                        <textarea id="content" name="content">${item.content || ''}</textarea>
+                        <textarea id="content" name="content" rows="20" style="width: 100%; padding: 12px; font-size: 14px; border: 1px solid #cbd5e0; border-radius: 4px; font-family: inherit;" required>${item.content || ''}</textarea>
+                        <small style="color: #718096; font-size: 13px;">
+                            ※ HTMLタグを使用できます（例: &lt;p&gt;段落&lt;/p&gt;、&lt;br&gt;改行、&lt;a href="..."&gt;リンク&lt;/a&gt;）
+                        </small>
                     </div>
                     
                     <div class="form-group checkbox-group">
@@ -192,23 +180,6 @@ news.get('/edit/:id', async (c) => {
             </div>
         </div>
         
-        <script>
-          // Initialize TinyMCE
-          tinymce.init({
-            selector: '#content',
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif; font-size: 14px; }',
-            language: 'ja',
-            branding: false
-          });
-        </script>
     </body>
     </html>
   `);

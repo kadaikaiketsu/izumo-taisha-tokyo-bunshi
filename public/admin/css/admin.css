@@ -176,19 +176,21 @@ body {
 .button {
   background: #667eea;
   color: white;
-  padding: 12px 24px;
-  border-radius: 6px;
+  padding: 16px 32px;
+  border-radius: 8px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s;
   display: inline-block;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .button:hover {
   background: #5a67d8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .button-secondary {
@@ -216,42 +218,56 @@ body {
 }
 
 .news-list h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin-bottom: 24px;
   color: #2d3748;
+  font-weight: 700;
 }
 
 .news-item {
-  border-bottom: 1px solid #e2e8f0;
-  padding: 20px 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s;
+  background: #ffffff;
+}
+
+.news-item:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .news-item:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .news-item-info h3 {
-  font-size: 16px;
+  font-size: 18px;
   color: #2d3748;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .news-item-meta {
-  font-size: 14px;
+  font-size: 15px;
   color: #718096;
 }
 
 .news-item-actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .news-item-actions .button {
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 12px 20px;
+  font-size: 15px;
+  white-space: nowrap;
 }
 
 /* Form */
