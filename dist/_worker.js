@@ -3506,6 +3506,14 @@ async function updateIndexHTML(db, token) {
     updatedContent,
     "Auto-update: Latest 5 news in index.html"
   );
+  await commitToGitHub(
+    token,
+    "kadaikaiketsu",
+    "izumo-taisha-tokyo-bunshi",
+    "dist/index.html",
+    updatedContent,
+    "Auto-update: Latest 5 news in dist/index.html"
+  );
 }
 async function updateNewsHTML(db, token) {
   const { results } = await db.prepare(`
@@ -3547,6 +3555,14 @@ async function updateNewsHTML(db, token) {
     "news.html",
     updatedContent,
     "Auto-update: All news in news.html"
+  );
+  await commitToGitHub(
+    token,
+    "kadaikaiketsu",
+    "izumo-taisha-tokyo-bunshi",
+    "dist/news.html",
+    updatedContent,
+    "Auto-update: All news in dist/news.html"
   );
 }
 async function commitToGitHub(token, owner, repo, path, content, message) {

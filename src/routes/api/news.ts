@@ -171,7 +171,7 @@ async function updateIndexHTML(db: any, token: string): Promise<void> {
                 </ul>`
   );
   
-  // Commit updated index.html
+  // Commit updated index.html to GitHub (both root and dist/)
   await commitToGitHub(
     token,
     'kadaikaiketsu',
@@ -179,6 +179,15 @@ async function updateIndexHTML(db: any, token: string): Promise<void> {
     'index.html',
     updatedContent,
     'Auto-update: Latest 5 news in index.html'
+  );
+  
+  await commitToGitHub(
+    token,
+    'kadaikaiketsu',
+    'izumo-taisha-tokyo-bunshi',
+    'dist/index.html',
+    updatedContent,
+    'Auto-update: Latest 5 news in dist/index.html'
   );
 }
 
@@ -227,7 +236,7 @@ async function updateNewsHTML(db: any, token: string): Promise<void> {
         </div>`
   );
   
-  // Commit updated news.html
+  // Commit updated news.html to GitHub (both root and dist/)
   await commitToGitHub(
     token,
     'kadaikaiketsu',
@@ -235,6 +244,15 @@ async function updateNewsHTML(db: any, token: string): Promise<void> {
     'news.html',
     updatedContent,
     'Auto-update: All news in news.html'
+  );
+  
+  await commitToGitHub(
+    token,
+    'kadaikaiketsu',
+    'izumo-taisha-tokyo-bunshi',
+    'dist/news.html',
+    updatedContent,
+    'Auto-update: All news in dist/news.html'
   );
 }
 
