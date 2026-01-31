@@ -2919,6 +2919,11 @@ news.get("/new", async (c) => {
             }
           });
           
+          // Register custom fonts BEFORE initializing Quill
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
+          
           // Custom image handler (supports both images and PDFs)
           function imageHandler() {
             const input = document.createElement('input');
@@ -2937,6 +2942,7 @@ news.get("/new", async (c) => {
                   if (file.type === 'application/pdf') {
                     const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                    alert('PDF\u300C' + file.name + '\u300D\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u307E\u3057\u305F\uFF01\\n\\n\u203B \u7DE8\u96C6\u753B\u9762\u3068\u30D7\u30EC\u30D3\u30E5\u30FC\u3067PDF\u306E\u5185\u5BB9\u3092\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -2955,7 +2961,7 @@ news.get("/new", async (c) => {
               toolbar: {
                 container: [
                   [{ 'header': [1, 2, 3, false] }],
-                  [{ 'font': [] }],
+                  [{ 'font': Font.whitelist }],
                   [{ 'size': ['small', false, 'large', 'huge'] }],
                   ['bold', 'italic', 'underline', 'strike'],
                   [{ 'color': [] }, { 'background': [] }],
@@ -2975,11 +2981,6 @@ news.get("/new", async (c) => {
           var fontStyles = document.createElement('style');
           fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
-          
-          // Register custom fonts
-          var Font = Quill.import('formats/font');
-          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
-          Quill.register(Font, true);
           
           // Image resize functionality
           document.addEventListener('click', function(e) {
@@ -3107,6 +3108,11 @@ news.get("/edit/:id", async (c) => {
         
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"><\/script>
         <script>
+          // Register custom fonts BEFORE initializing Quill
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
+          
           // Custom image handler
           function imageHandler() {
             const input = document.createElement('input');
@@ -3125,6 +3131,7 @@ news.get("/edit/:id", async (c) => {
                   if (file.type === 'application/pdf') {
                     const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                    alert('PDF\u300C' + file.name + '\u300D\u3092\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9\u3057\u307E\u3057\u305F\uFF01\\n\\n\u203B \u7DE8\u96C6\u753B\u9762\u3068\u30D7\u30EC\u30D3\u30E5\u30FC\u3067PDF\u306E\u5185\u5BB9\u3092\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3002');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -3143,7 +3150,7 @@ news.get("/edit/:id", async (c) => {
               toolbar: {
                 container: [
                   [{ 'header': [1, 2, 3, false] }],
-                  [{ 'font': [] }],
+                  [{ 'font': Font.whitelist }],
                   [{ 'size': ['small', false, 'large', 'huge'] }],
                   ['bold', 'italic', 'underline', 'strike'],
                   [{ 'color': [] }, { 'background': [] }],
@@ -3163,11 +3170,6 @@ news.get("/edit/:id", async (c) => {
           var fontStyles = document.createElement('style');
           fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "\u30B4\u30B7\u30C3\u30AF\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans\uFF08\u30B4\u30B7\u30C3\u30AF\uFF09" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "\u6E38\u30B4\u30B7\u30C3\u30AF" !important; font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "\u30E1\u30A4\u30EA\u30AA" !important; font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4" !important; font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "\u660E\u671D\u4F53\uFF08\u6A19\u6E96\uFF09" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif\uFF08\u660E\u671D\uFF09" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "\u6E38\u660E\u671D" !important; font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "\u30C7\u30D5\u30A9\u30EB\u30C8" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "\u6E38\u30B4\u30B7\u30C3\u30AF", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "\u30E1\u30A4\u30EA\u30AA", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "\u30D2\u30E9\u30AE\u30CE\u89D2\u30B4 ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "\u6E38\u660E\u671D", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
-          
-          // Register custom fonts
-          var Font = Quill.import('formats/font');
-          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
-          Quill.register(Font, true);
           
           // Load existing content
           const existingContent = document.getElementById('content').value;

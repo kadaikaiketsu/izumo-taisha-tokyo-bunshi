@@ -94,6 +94,11 @@ news.get('/new', async (c) => {
             }
           });
           
+          // Register custom fonts BEFORE initializing Quill
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
+          
           // Custom image handler (supports both images and PDFs)
           function imageHandler() {
             const input = document.createElement('input');
@@ -112,6 +117,7 @@ news.get('/new', async (c) => {
                   if (file.type === 'application/pdf') {
                     const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                    alert('PDF「' + file.name + '」をアップロードしました！\\n\\n※ 編集画面とプレビューでPDFの内容を確認できます。');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -130,7 +136,7 @@ news.get('/new', async (c) => {
               toolbar: {
                 container: [
                   [{ 'header': [1, 2, 3, false] }],
-                  [{ 'font': [] }],
+                  [{ 'font': Font.whitelist }],
                   [{ 'size': ['small', false, 'large', 'huge'] }],
                   ['bold', 'italic', 'underline', 'strike'],
                   [{ 'color': [] }, { 'background': [] }],
@@ -150,11 +156,6 @@ news.get('/new', async (c) => {
           var fontStyles = document.createElement('style');
           fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "ゴシック体（標準）" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans（ゴシック）" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "游ゴシック" !important; font-family: "Yu Gothic", "游ゴシック", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "メイリオ" !important; font-family: Meiryo, "メイリオ", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "ヒラギノ角ゴ" !important; font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "明朝体（標準）" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif（明朝）" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "游明朝" !important; font-family: "Yu Mincho", "游明朝", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "デフォルト" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "游ゴシック", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "メイリオ", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "游明朝", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
-          
-          // Register custom fonts
-          var Font = Quill.import('formats/font');
-          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
-          Quill.register(Font, true);
           
           // Image resize functionality
           document.addEventListener('click', function(e) {
@@ -289,6 +290,11 @@ news.get('/edit/:id', async (c) => {
         
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script>
+          // Register custom fonts BEFORE initializing Quill
+          var Font = Quill.import('formats/font');
+          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+          Quill.register(Font, true);
+          
           // Custom image handler
           function imageHandler() {
             const input = document.createElement('input');
@@ -307,6 +313,7 @@ news.get('/edit/:id', async (c) => {
                   if (file.type === 'application/pdf') {
                     const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden;"><iframe src="' + base64 + '" width="100%" height="600px" style="border: none;"></iframe><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">📄 ' + file.name + '</p></div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
+                    alert('PDF「' + file.name + '」をアップロードしました！\\n\\n※ 編集画面とプレビューでPDFの内容を確認できます。');
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
                     quill.setSelection(range.index + 1);
@@ -325,7 +332,7 @@ news.get('/edit/:id', async (c) => {
               toolbar: {
                 container: [
                   [{ 'header': [1, 2, 3, false] }],
-                  [{ 'font': [] }],
+                  [{ 'font': Font.whitelist }],
                   [{ 'size': ['small', false, 'large', 'huge'] }],
                   ['bold', 'italic', 'underline', 'strike'],
                   [{ 'color': [] }, { 'background': [] }],
@@ -345,11 +352,6 @@ news.get('/edit/:id', async (c) => {
           var fontStyles = document.createElement('style');
           fontStyles.innerHTML = '.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="sans-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="sans-serif"]::before { content: "ゴシック体（標準）" !important; font-family: sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans"]::before { content: "Noto Sans（ゴシック）" !important; font-family: "Noto Sans JP", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-gothic"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-gothic"]::before { content: "游ゴシック" !important; font-family: "Yu Gothic", "游ゴシック", YuGothic, sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="meiryo"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="meiryo"]::before { content: "メイリオ" !important; font-family: Meiryo, "メイリオ", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="hiragino"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="hiragino"]::before { content: "ヒラギノ角ゴ" !important; font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before { content: "明朝体（標準）" !important; font-family: serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-serif"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-serif"]::before { content: "Noto Serif（明朝）" !important; font-family: "Noto Serif JP", serif; } .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="yu-mincho"]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="yu-mincho"]::before { content: "游明朝" !important; font-family: "Yu Mincho", "游明朝", YuMincho, serif; } .ql-snow .ql-picker.ql-font .ql-picker-label:not([data-value])::before, .ql-snow .ql-picker.ql-font .ql-picker-item:not([data-value])::before { content: "デフォルト" !important; } .ql-font-sans-serif { font-family: sans-serif !important; } .ql-font-noto-sans { font-family: "Noto Sans JP", sans-serif !important; } .ql-font-yu-gothic { font-family: "Yu Gothic", "游ゴシック", YuGothic, sans-serif !important; } .ql-font-meiryo { font-family: Meiryo, "メイリオ", sans-serif !important; } .ql-font-hiragino { font-family: "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", sans-serif !important; } .ql-font-serif { font-family: serif !important; } .ql-font-noto-serif { font-family: "Noto Serif JP", serif !important; } .ql-font-yu-mincho { font-family: "Yu Mincho", "游明朝", YuMincho, serif !important; } .ql-editor img { max-width: 100%; height: auto; cursor: pointer; transition: all 0.3s; } .ql-editor img:hover { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); }';
           document.head.appendChild(fontStyles);
-          
-          // Register custom fonts
-          var Font = Quill.import('formats/font');
-          Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
-          Quill.register(Font, true);
           
           // Load existing content
           const existingContent = document.getElementById('content').value;

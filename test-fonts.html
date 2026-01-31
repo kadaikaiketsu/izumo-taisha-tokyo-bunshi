@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+</head>
+<body>
+<div id="editor"></div>
+<script>
+var Font = Quill.import('formats/font');
+Font.whitelist = ['sans-serif', 'noto-sans', 'yu-gothic', 'meiryo', 'hiragino', 'serif', 'noto-serif', 'yu-mincho'];
+Quill.register(Font, true);
+
+var quill = new Quill('#editor', {
+  modules: {
+    toolbar: [[{ 'font': Font.whitelist }]]
+  }
+});
+console.log('Font whitelist:', Font.whitelist);
+</script>
+</body>
+</html>
