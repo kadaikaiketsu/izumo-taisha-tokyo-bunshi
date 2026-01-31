@@ -2937,7 +2937,13 @@ news.get("/new", async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    // Use PDF.js for reliable PDF display across all browsers
+                    const encodedPdf = encodeURIComponent(base64);
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;">' +
+                      '<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodedPdf + '" ' +
+                      'width="100%" height="600px" style="border: none;"></iframe>' +
+                      '<p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p>' +
+                      '</div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
@@ -3037,7 +3043,7 @@ news.get("/new", async (c) => {
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const content = quill.root.innerHTML;
             
-            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
+            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content iframe { max-width: 100%; border: none; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
             
             const previewWindow = window.open('', 'preview', 'width=900,height=700');
             previewWindow.document.write(previewHTML);
@@ -3147,7 +3153,13 @@ news.get("/edit/:id", async (c) => {
                   const range = quill.getSelection(true);
                   
                   if (file.type === 'application/pdf') {
-                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;"><embed src="' + base64 + '" type="application/pdf" width="100%" height="600px" style="border: none;"><p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p></div>';
+                    // Use PDF.js for reliable PDF display across all browsers
+                    const encodedPdf = encodeURIComponent(base64);
+                    const pdfEmbed = '<div style="margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #f9f9f9;">' +
+                      '<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=' + encodedPdf + '" ' +
+                      'width="100%" height="600px" style="border: none;"></iframe>' +
+                      '<p style="text-align: center; padding: 10px; background: #f5f5f5; margin: 0; font-size: 14px; color: #666;">\u{1F4C4} ' + file.name + '</p>' +
+                      '</div>';
                     quill.clipboard.dangerouslyPasteHTML(range.index, pdfEmbed);
                   } else {
                     quill.insertEmbed(range.index, 'image', base64);
@@ -3253,7 +3265,7 @@ news.get("/edit/:id", async (c) => {
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
             const content = quill.root.innerHTML;
             
-            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
+            const previewHTML = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>\u30D7\u30EC\u30D3\u30E5\u30FC: ' + title + '</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet"><style>body { font-family: "Noto Sans JP", sans-serif; line-height: 1.8; max-width: 800px; margin: 40px auto; padding: 20px; background: #f5f5f5; } .preview-header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-date { color: #666; font-size: 14px; margin-bottom: 10px; } .preview-title { font-size: 28px; font-weight: 700; color: #2c3e50; margin: 0; } .preview-content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); } .preview-content img { max-width: 100%; height: auto; } .preview-content iframe { max-width: 100%; border: none; } .preview-content a { color: #8B4513; text-decoration: underline; }</style></head><body><div class="preview-header"><div class="preview-date">' + date + '</div><h1 class="preview-title">' + title + '</h1></div><div class="preview-content">' + content + '</div></body></html>';
             
             const previewWindow = window.open('', 'preview', 'width=900,height=700');
             previewWindow.document.write(previewHTML);
