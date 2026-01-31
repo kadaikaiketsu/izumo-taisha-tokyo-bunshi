@@ -335,8 +335,23 @@ api.post('/', async (c) => {
     );
     
     // Update index.html and news.html
-    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    try {
+      console.log('Updating index.html...');
+      await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+      console.log('index.html updated successfully');
+    } catch (indexError) {
+      console.error('Failed to update index.html:', indexError);
+      // Continue anyway
+    }
+    
+    try {
+      console.log('Updating news.html...');
+      await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
+      console.log('news.html updated successfully');
+    } catch (newsError) {
+      console.error('Failed to update news.html:', newsError);
+      // Continue anyway
+    }
     
     return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
@@ -386,8 +401,23 @@ api.post('/:id', async (c) => {
     );
     
     // Update index.html and news.html
-    await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
-    await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
+    try {
+      console.log('Updating index.html...');
+      await updateIndexHTML(c.env.DB, c.env.GITHUB_TOKEN);
+      console.log('index.html updated successfully');
+    } catch (indexError) {
+      console.error('Failed to update index.html:', indexError);
+      // Continue anyway
+    }
+    
+    try {
+      console.log('Updating news.html...');
+      await updateNewsHTML(c.env.DB, c.env.GITHUB_TOKEN);
+      console.log('news.html updated successfully');
+    } catch (newsError) {
+      console.error('Failed to update news.html:', newsError);
+      // Continue anyway
+    }
     
     return c.redirect('/admin/dashboard?success=saved');
   } catch (error) {
