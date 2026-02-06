@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "node build.js",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name=izumo-taisha-tokyo-bunshi --branch=main",
+    "deploy": "bash deploy.sh",
+    "deploy:direct": "npm run build && wrangler pages deploy dist --project-name=izumo-taisha-tokyo-bunshi --branch=main",
     "sync": "node sync-news.js && npm run build && npm run deploy",
     "db:migrate:local": "wrangler d1 migrations apply izumo-cms --local",
     "db:migrate:prod": "wrangler d1 migrations apply izumo-cms"
