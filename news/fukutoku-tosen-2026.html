@@ -8,7 +8,7 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MNG2TBMF');</script>
     <!-- End Google Tag Manager -->
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="令和８年福徳会 ～当籤番号の発表～">
@@ -17,13 +17,194 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ページ固有スタイル */
+        .fukutoku-hero {
+            background: linear-gradient(135deg, #1a0a00 0%, #3d1a00 50%, #6b2d00 100%);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .fukutoku-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(212,175,55,0.15) 0%, transparent 70%);
+        }
+        .fukutoku-hero-kamon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        .fukutoku-hero h2 {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.6rem;
+            color: #f5e6c8;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+        .fukutoku-hero p {
+            color: #c9a96e;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        .fukutoku-hero .divider-gold {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 0.8rem auto;
+        }
+
+        /* 説明文カード */
+        .intro-card {
+            background: #faf8f5;
+            border: 1px solid #e8dcc8;
+            border-left: 4px solid #8B4513;
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            line-height: 2;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        /* 賞ブロック共通 */
+        .prize-block {
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        .prize-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .prize-rank {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .prize-name {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+        }
+        .prize-sub {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.1rem;
+        }
+        .prize-body {
+            padding: 1.2rem 1.5rem 1.5rem;
+            background: #fff;
+        }
+        .prize-numbers {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+        .prize-numbers-grid {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            line-height: 2.4;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* 特等 - 金 */
+        .prize-tokuто .prize-header {
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #f0d060 100%);
+        }
+        .prize-tokuто .prize-rank {
+            background: rgba(0,0,0,0.2);
+            color: #fff8e1;
+        }
+        .prize-tokuто .prize-name { color: #fff8e1; }
+        .prize-tokuто .prize-sub { color: #fff8e1; }
+        .prize-tokuто .prize-numbers { color: #b8860b; }
+        .prize-tokuто .prize-body { border-top: 3px solid #d4af37; }
+
+        /* 壱等 - 銀 */
+        .prize-ichi .prize-header {
+            background: linear-gradient(135deg, #6b7280 0%, #9ca3af 50%, #d1d5db 100%);
+        }
+        .prize-ichi .prize-rank {
+            background: rgba(0,0,0,0.2);
+            color: #f8fafc;
+        }
+        .prize-ichi .prize-name { color: #f8fafc; }
+        .prize-ichi .prize-sub { color: #f0f0f0; }
+        .prize-ichi .prize-numbers { color: #4b5563; }
+        .prize-ichi .prize-body { border-top: 3px solid #9ca3af; }
+
+        /* 三等 - 木 */
+        .prize-san .prize-header {
+            background: linear-gradient(135deg, #5c3317 0%, #8B4513 50%, #a0522d 100%);
+        }
+        .prize-san .prize-rank {
+            background: rgba(0,0,0,0.2);
+            color: #fde8d0;
+        }
+        .prize-san .prize-name { color: #fde8d0; }
+        .prize-san .prize-sub { color: #fde8d0; }
+        .prize-san .prize-numbers { color: #8B4513; font-size: 1.6rem; }
+        .prize-san .prize-body { border-top: 3px solid #a0522d; }
+
+        /* 四等 */
+        .prize-shi .prize-header {
+            background: linear-gradient(135deg, #1a3a4a 0%, #2d5a6b 50%, #3d7a8a 100%);
+        }
+        .prize-shi .prize-rank {
+            background: rgba(0,0,0,0.2);
+            color: #e0f4f8;
+        }
+        .prize-shi .prize-name { color: #e0f4f8; }
+        .prize-shi .prize-body { border-top: 3px solid #3d7a8a; }
+
+        /* 注意書き */
+        .notice-box {
+            background: #fff9f0;
+            border: 1px solid #f0d8b0;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #7a5a30;
+            line-height: 1.8;
+            text-align: center;
+        }
+        .notice-box strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: #8B4513;
+        }
+    </style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNG2TBMF"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
+
     <!-- ヘッダー -->
     <header class="site-header">
         <div class="header-container">
@@ -47,45 +228,111 @@
     </header>
 
     <!-- メインコンテンツ -->
-    <main><section class="section">
+    <main>
+        <section class="section">
             <div class="container-narrow">
+
                 <div style="margin-bottom: 2rem;">
                     <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
                         ← 新着情報一覧に戻る
                     </a>
                 </div>
-                
-                <h1 style="font-size: 2rem; color: #2c3e50; margin-bottom: 0.5rem;">令和８年福徳会 ～当籤番号の発表～</h1>
-                <p style="color: #666; margin-bottom: 2rem;">投稿日: 2026.3.13</p>
 
-                <p>令和８年２月１７日の旧正月に出雲大社神楽殿にて福神祭がお仕えされ、皆様方より寄せられました</p>
-                <p>「福徳会会員名簿」をお供え致し、家内安全と無病息災が祈念されました。</p>
-                <p>後日、管長様より福徳会の当籤番号を抽選でお選び戴きましたので、</p>
-                <p>東京分祠の会員の方々の当籤番号をお知らせいたします。</p>
-                <p>ご当籤されました方は会員証をご持参の上、社務所へお申し出下さい。</p>
+                <h1 style="font-family: 'Noto Serif JP', serif; font-size: 1.9rem; color: #2c3e50; margin-bottom: 0.4rem; letter-spacing: 0.05em;">令和８年福徳会 ～当籤番号の発表～</h1>
+                <p style="color: #999; margin-bottom: 2rem; font-size: 0.9rem;">投稿日: 2026.3.13</p>
 
-                <div style="margin-top: 2.5rem;">
+                <!-- ヒーローバナー -->
+                <div class="fukutoku-hero">
+                    <div class="fukutoku-hero-kamon">⛩</div>
+                    <h2>福　徳　会</h2>
+                    <div class="divider-gold"></div>
+                    <p>令和８年　当籤番号の発表</p>
+                    <p style="margin-top: 0.4rem; font-size: 0.85rem;">出雲大社東京分祠</p>
+                </div>
 
-                    <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.1em;">特　等　福　神　金　御　像（御　霊　宮　入）</p>
-                    <p style="font-size: 0.9rem; color: #555;">（副賞　福神祭御幣・宿泊優待券）</p>
-                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0.3rem 0 1.5rem;">8011</p>
+                <!-- 説明文 -->
+                <div class="intro-card">
+                    令和８年２月１７日の旧正月に出雲大社神楽殿にて福神祭がお仕えされ、<br>
+                    皆様方より寄せられました「福徳会会員名簿」をお供え致し、<br>
+                    家内安全と無病息災が祈念されました。<br><br>
+                    後日、管長様より福徳会の当籤番号を抽選でお選び戴きましたので、<br>
+                    東京分祠の会員の方々の当籤番号をお知らせいたします。<br><br>
+                    <strong style="color: #8B4513;">ご当籤されました方は会員証をご持参の上、社務所へお申し出下さい。</strong>
+                </div>
 
-                    <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.1em;">壱　等　福　神　銀　御　像（御　霊　宮　入）</p>
-                    <p style="font-size: 0.9rem; color: #555;">（副賞　福神祭御幣・宿泊優待券）</p>
-                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0.3rem 0 1.5rem;">8408</p>
+                <!-- 特等 -->
+                <div class="prize-block prize-tokuто">
+                    <div class="prize-header">
+                        <div>
+                            <span class="prize-rank">特　等</span>
+                        </div>
+                        <div>
+                            <div class="prize-name">福　神　金　御　像（御　霊　宮　入）</div>
+                            <div class="prize-sub">副賞：福神祭御幣・宿泊優待券</div>
+                        </div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-numbers">8011</div>
+                    </div>
+                </div>
 
-                    <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.1em;">三　等　福　神　大　御　木　像</p>
-                    <p style="font-size: 1.3rem; font-weight: bold; margin: 0.3rem 0 1.5rem;">7999　　8555</p>
+                <!-- 壱等 -->
+                <div class="prize-block prize-ichi">
+                    <div class="prize-header">
+                        <div>
+                            <span class="prize-rank">壱　等</span>
+                        </div>
+                        <div>
+                            <div class="prize-name">福　神　銀　御　像（御　霊　宮　入）</div>
+                            <div class="prize-sub">副賞：福神祭御幣・宿泊優待券</div>
+                        </div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-numbers">8408</div>
+                    </div>
+                </div>
 
-                    <p style="font-size: 1.1rem; font-weight: bold; letter-spacing: 0.1em;">四　等　福　神　小　御　像</p>
-                    <p style="font-size: 1.1rem; font-weight: bold; line-height: 2.2; margin: 0.3rem 0 0;">
-                        7949　7976　8016　8024　8049　8076　8099　8116<br>
-                        8124　8149　8176　8199　8216　8224　8249　8276<br>
-                        8299　8316　8324　8349　8376　8399　8416　8424<br>
-                        8449　8476　8499　8516　8524　9462　8549　8576<br>
-                        8599　8616
-                    </p>
+                <!-- 三等 -->
+                <div class="prize-block prize-san">
+                    <div class="prize-header">
+                        <div>
+                            <span class="prize-rank">三　等</span>
+                        </div>
+                        <div>
+                            <div class="prize-name">福　神　大　御　木　像</div>
+                        </div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-numbers">7999　　8555</div>
+                    </div>
+                </div>
 
+                <!-- 四等 -->
+                <div class="prize-block prize-shi">
+                    <div class="prize-header">
+                        <div>
+                            <span class="prize-rank">四　等</span>
+                        </div>
+                        <div>
+                            <div class="prize-name">福　神　小　御　像</div>
+                        </div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-numbers-grid">
+                            7949&emsp;7976&emsp;8016&emsp;8024&emsp;8049&emsp;8076&emsp;8099&emsp;8116<br>
+                            8124&emsp;8149&emsp;8176&emsp;8199&emsp;8216&emsp;8224&emsp;8249&emsp;8276<br>
+                            8299&emsp;8316&emsp;8324&emsp;8349&emsp;8376&emsp;8399&emsp;8416&emsp;8424<br>
+                            8449&emsp;8476&emsp;8499&emsp;8516&emsp;8524&emsp;9462&emsp;8549&emsp;8576<br>
+                            8599&emsp;8616
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 注意書き -->
+                <div class="notice-box">
+                    <strong>📌 お申し出について</strong>
+                    ご当籤されました方は会員証をご持参の上、社務所へお申し出下さい。<br>
+                    当選のご連絡と発送はいたしておりません。
                 </div>
 
                 <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd;">
@@ -93,6 +340,7 @@
                         ← 新着情報一覧に戻る
                     </a>
                 </div>
+
             </div>
         </section>
 
@@ -105,7 +353,8 @@
                 TEL: <a href="tel:03-3401-9301">03-3401-9301</a><br>
                 受付時間: 午前9時～午後5時</p>
             </div>
-        </section>    </main>
+        </section>
+    </main>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -115,7 +364,7 @@
                 東京都港区六本木7-18-5<br>
                 TEL: 03-3401-9301<br>
                 受付時間: 午前9時～午後5時</p>
-                
+
                 <div class="social-links">
                     <a href="https://www.instagram.com/izumotaisha_tokyo" target="_blank" rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -134,7 +383,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="footer-section">
                 <h4>サイトマップ</h4>
                 <ul class="footer-nav">
@@ -145,7 +394,7 @@
                     <li><a href="../omamori.html">御札・御守</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
                 <h4>ご案内</h4>
                 <ul class="footer-nav">
@@ -157,7 +406,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <p>Copyright (C) 2002-2025 Izumo Oyashiro Tokyo. All Rights Reserved.</p>
         </div>
