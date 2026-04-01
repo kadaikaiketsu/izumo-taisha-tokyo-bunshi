@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MNG2TBMF');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="令和８年福徳会 ～当籤番号の発表～ | 出雲大社東京分祠">
+    <title>令和８年福徳会 ～当籤番号の発表～ | 出雲大社東京分祠</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ヒーローバナー */
+        .fukutoku-hero {
+            background: linear-gradient(135deg, #2c1a0e 0%, #5c3317 40%, #8B6914 70%, #c9a84c 100%);
+            color: #fff;
+            text-align: center;
+            padding: 3rem 1.5rem 2.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .fukutoku-hero::before {
+            content: '⛩';
+            font-size: 5rem;
+            opacity: 0.08;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .fukutoku-hero h1 {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            color: #ffe8a0;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .fukutoku-hero .sub {
+            font-size: 0.95rem;
+            color: #f0d080;
+            letter-spacing: 0.15em;
+        }
+        .fukutoku-hero .posted {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #d4b96a;
+        }
+
+        /* 説明文ボックス */
+        .fukutoku-desc {
+            background: #fdf8f0;
+            border-left: 4px solid #8B6914;
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2.5rem;
+            line-height: 2;
+            color: #3a2a10;
+            font-size: 0.97rem;
+        }
+
+        /* 賞カード共通 */
+        .prize-card {
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        .prize-card-header {
+            padding: 1rem 1.5rem;
+            color: #fff;
+            text-align: center;
+        }
+        .prize-card-header h2 {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin: 0 0 0.2rem;
+        }
+        .prize-card-header .prize-sub {
+            font-size: 0.82rem;
+            opacity: 0.9;
+            letter-spacing: 0.05em;
+        }
+        .prize-card-body {
+            background: #fff;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        /* 特等：金グラデ */
+        .prize-tokutou .prize-card-header {
+            background: linear-gradient(135deg, #7a5c00 0%, #b8860b 50%, #ffd700 100%);
+        }
+        .prize-tokutou .prize-number {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #7a5c00;
+            letter-spacing: 0.15em;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        /* 壱等：銀グラデ */
+        .prize-ichitou .prize-card-header {
+            background: linear-gradient(135deg, #3a3a3a 0%, #7a7a7a 50%, #c0c0c0 100%);
+        }
+        .prize-ichitou .prize-number {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #4a4a4a;
+            letter-spacing: 0.15em;
+        }
+
+        /* 三等：赤茶グラデ */
+        .prize-santou .prize-card-header {
+            background: linear-gradient(135deg, #5c1a00 0%, #8B3a10 50%, #c06030 100%);
+        }
+        .prize-santou .prize-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .prize-santou .prize-number {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #7a2800;
+            letter-spacing: 0.12em;
+        }
+
+        /* 四等：深緑グラデ */
+        .prize-yontou .prize-card-header {
+            background: linear-gradient(135deg, #0d2b1a 0%, #1a5c30 50%, #2e8b57 100%);
+        }
+        .prize-yontou .prize-numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 0.7rem 1rem;
+            padding: 0.5rem 0;
+        }
+        .prize-yontou .prize-num-item {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a4d2e;
+            background: #f0faf4;
+            border: 1px solid #b0dcc0;
+            border-radius: 6px;
+            padding: 0.4rem 0.5rem;
+            text-align: center;
+            letter-spacing: 0.05em;
+        }
+
+        /* 副賞ラベル */
+        .fukusho-label {
+            display: inline-block;
+            background: #fff8e6;
+            border: 1px solid #d4a840;
+            color: #7a5c00;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            padding: 0.25rem 0.8rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* お申し出ボックス */
+        .notice-box {
+            background: linear-gradient(135deg, #fdf5e0 0%, #fff9ec 100%);
+            border: 1.5px solid #d4a840;
+            border-radius: 10px;
+            padding: 1.5rem 1.8rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #5c3a00;
+            font-size: 0.97rem;
+            line-height: 1.9;
+        }
+        .notice-box strong {
+            display: block;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            color: #8B6914;
+        }
+    </style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MNG2TBMF"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- ヘッダー -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="../index.html" class="site-logo">出雲大社東京分祠</a>
+            <button class="menu-toggle" aria-label="メニュー">☰</button>
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="../index.html">ホーム</a></li>
+                    <li><a href="../news.html">新着情報</a></li>
+                    <li><a href="../about.html">出雲大社</a></li>
+                    <li><a href="../history.html">由緒</a></li>
+                    <li><a href="../omamori.html">御札・御守</a></li>
+                    <li><a href="../prayer.html">御祈願</a></li>
+                    <li><a href="../wedding.html">神前結婚式</a></li>
+                    <li><a href="../events.html">年間行事</a></li>
+                    <li><a href="../funeral.html">神葬祭</a></li>
+                    <li><a href="../access.html">交通機関</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main>
+        <section class="section">
+            <div class="container-narrow">
+
+                <div style="margin-bottom: 2rem;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+
+                <!-- ヒーローバナー -->
+                <div class="fukutoku-hero">
+                    <p class="sub">令和８年</p>
+                    <h1>福徳会　当籤番号の発表</h1>
+                    <p class="posted">投稿日：2026.3.13</p>
+                </div>
+
+                <!-- 説明文 -->
+                <div class="fukutoku-desc">
+                    令和８年２月１７日の福神祭に、出雲大社神楽殿にて皆様方より寄せられました「福徳会会員名簿」をお供え致し、家内安全と無病息災が祈念されました。<br>
+                    後日、管長様より福徳会の当籤番号を抽選でお選び戴きましたので、東京分祠の会員の方々の当籤番号をお知らせいたします。<br><br>
+                    <strong style="color: #8B3a10;">ご当籤されました方は会員証をご持参の上、社務所へお申し出ください。</strong>
+                </div>
+
+                <!-- 特等 -->
+                <div class="prize-card prize-tokutou">
+                    <div class="prize-card-header">
+                        <h2>特　等</h2>
+                        <p class="prize-sub">福 神 金 御 像</p>
+                    </div>
+                    <div class="prize-card-body">
+                        <span class="fukusho-label">副賞：福神祭御幣・宿泊優待券</span>
+                        <div class="prize-number">8011</div>
+                    </div>
+                </div>
+
+                <!-- 壱等 -->
+                <div class="prize-card prize-ichitou">
+                    <div class="prize-card-header">
+                        <h2>壱　等</h2>
+                        <p class="prize-sub">福 神 銀 御 像（御 霊 宮 入）</p>
+                    </div>
+                    <div class="prize-card-body">
+                        <span class="fukusho-label">副賞：福神祭御幣・宿泊優待券</span>
+                        <div class="prize-number">8408</div>
+                    </div>
+                </div>
+
+                <!-- 三等 -->
+                <div class="prize-card prize-santou">
+                    <div class="prize-card-header">
+                        <h2>三　等</h2>
+                        <p class="prize-sub">福 神 大 御 木 像</p>
+                    </div>
+                    <div class="prize-card-body">
+                        <div class="prize-numbers">
+                            <div class="prize-number">7999</div>
+                            <div class="prize-number">8555</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 四等 -->
+                <div class="prize-card prize-yontou">
+                    <div class="prize-card-header">
+                        <h2>四　等</h2>
+                        <p class="prize-sub">福 神 小 御 像</p>
+                    </div>
+                    <div class="prize-card-body">
+                        <div class="prize-numbers-grid">
+                            <div class="prize-num-item">7949</div>
+                            <div class="prize-num-item">7976</div>
+                            <div class="prize-num-item">8016</div>
+                            <div class="prize-num-item">8024</div>
+                            <div class="prize-num-item">8049</div>
+                            <div class="prize-num-item">8076</div>
+                            <div class="prize-num-item">8099</div>
+                            <div class="prize-num-item">8116</div>
+                            <div class="prize-num-item">8124</div>
+                            <div class="prize-num-item">8149</div>
+                            <div class="prize-num-item">8176</div>
+                            <div class="prize-num-item">8199</div>
+                            <div class="prize-num-item">8216</div>
+                            <div class="prize-num-item">8224</div>
+                            <div class="prize-num-item">8249</div>
+                            <div class="prize-num-item">8276</div>
+                            <div class="prize-num-item">8299</div>
+                            <div class="prize-num-item">8316</div>
+                            <div class="prize-num-item">8324</div>
+                            <div class="prize-num-item">8349</div>
+                            <div class="prize-num-item">8376</div>
+                            <div class="prize-num-item">8399</div>
+                            <div class="prize-num-item">8416</div>
+                            <div class="prize-num-item">8424</div>
+                            <div class="prize-num-item">8449</div>
+                            <div class="prize-num-item">8476</div>
+                            <div class="prize-num-item">8499</div>
+                            <div class="prize-num-item">8516</div>
+                            <div class="prize-num-item">8524</div>
+                            <div class="prize-num-item">9462</div>
+                            <div class="prize-num-item">8549</div>
+                            <div class="prize-num-item">8576</div>
+                            <div class="prize-num-item">8599</div>
+                            <div class="prize-num-item">8616</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- お申し出ボックス -->
+                <div class="notice-box">
+                    <strong>社務所へのお申し出について</strong>
+                    ご当籤されました方は、会員証をご持参の上、社務所へお申し出ください。<br>
+                    賞品の発送はいたしておりません。
+                </div>
+
+                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+                    <a href="../news.html" style="color: #8B4513; text-decoration: none; display: inline-flex; align-items: center;">
+                        ← 新着情報一覧に戻る
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 連絡先情報 -->
+        <section class="section section-alt">
+            <div class="container-narrow">
+                <h3>お問い合わせ</h3>
+                <p><strong>出雲大社東京分祠</strong><br>
+                〒106-0032 東京都港区六本木7-18-5<br>
+                TEL: <a href="tel:03-3401-9301">03-3401-9301</a><br>
+                受付時間: 午前9時～午後5時</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>出雲大社東京分祠</h4>
+                <p>〒106-0032<br>
+                東京都港区六本木7-18-5<br>
+                TEL: 03-3401-9301<br>
+                受付時間: 午前9時～午後5時</p>
+
+                <div class="social-links">
+                    <a href="https://www.instagram.com/izumotaisha_tokyo" target="_blank" rel="noopener noreferrer" class="social-link instagram" aria-label="Instagram">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.tiktok.com/@izumotaishi_tokyo" target="_blank" rel="noopener noreferrer" class="social-link tiktok" aria-label="TikTok">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/izumotaisyatokyo/" target="_blank" rel="noopener noreferrer" class="social-link facebook" aria-label="Facebook">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>サイトマップ</h4>
+                <ul class="footer-nav">
+                    <li><a href="../index.html">ホーム</a></li>
+                    <li><a href="../news.html">新着情報</a></li>
+                    <li><a href="../about.html">出雲大社について</a></li>
+                    <li><a href="../history.html">由緒</a></li>
+                    <li><a href="../omamori.html">御札・御守</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>ご案内</h4>
+                <ul class="footer-nav">
+                    <li><a href="../prayer.html">御祈願</a></li>
+                    <li><a href="../wedding.html">神前結婚式</a></li>
+                    <li><a href="../events.html">年間行事</a></li>
+                    <li><a href="../funeral.html">神葬祭</a></li>
+                    <li><a href="../access.html">交通アクセス</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright (C) 2002-2025 Izumo Oyashiro Tokyo. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
