@@ -42,6 +42,7 @@
                     <li><a href="events.html">年間行事</a></li>
                     <li><a href="funeral.html">神葬祭</a></li>
                     <li><a href="access.html">交通機関</a></li>
+                    <li><a href="https://izumotokyo.base.shop/" target="_blank" rel="noopener noreferrer" style="color: #D4AF37;">オンライン授与所</a></li>
                 </ul>
             </nav>
         </div>
@@ -123,67 +124,50 @@
                 <h2 style="text-align: center; margin-bottom: 3rem;">東京分祠からのお知らせ</h2>
                 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
-                    <!-- お知らせ -->
+                    <!-- お知らせ（自動生成） -->
                     <div class="card">
                         <div class="card-content">
                             <h3 style="color: var(--primary-red); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-red);">《お知らせ》</h3>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 0.8rem;">
-                                    <a href="notices/yuusou-kigan.html" style="color: var(--text-dark); text-decoration: none; display: block; padding: 0.5rem 0;">
-                                        ■ 郵送祈願の御案内
-                                    </a>
-                                </li>
-                                <li style="margin-bottom: 0.8rem;">
-                                    <a href="notices/caution-confusing.html" style="color: var(--text-dark); text-decoration: none; display: block; padding: 0.5rem 0;">
-                                        ■ 注意！紛らわしい団体
-                                    </a>
-                                </li>
-                                <li style="margin-bottom: 0.8rem;">
-                                    <a href="notices/kaisan-kyokai.html" style="color: var(--text-dark); text-decoration: none; display: block; padding: 0.5rem 0;">
-                                        ■ 解散した教会について
-                                    </a>
-                                </li>
-                                <li style="margin-bottom: 0.8rem;">
-                                    <a href="notices/caution-solicitation.html" style="color: var(--text-dark); text-decoration: none; display: block; padding: 0.5rem 0; font-size: 0.95rem;">
-                                        ■ 【ご注意】出雲大社の関係者を名乗る勧誘などについて
-                                    </a>
-                                </li>
-                            </ul>
+                            <ul id="notices-list" style="list-style: none; padding: 0;"></ul>
                         </div>
                     </div>
-                    
-                    <!-- 新着情報 -->
+
+                    <!-- 新着情報（自動生成） -->
                     <div class="card">
                         <div class="card-content">
                             <h3 style="color: var(--primary-red); margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-red);">《新着情報》</h3>
-                            <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
-                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
-                                    <span style="color: #999; font-size: 0.85rem;">2026-03-19</span><br>
-                                    <a href="news/taisai-syuin-2026.html" style="color: var(--text-dark); text-decoration: none;">令和８年 春季大祭 祈念朱印のご案内</a>
-                                </li>
-                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
-                                    <span style="color: #999; font-size: 0.85rem;">2026-03-13</span><br>
-                                    <a href="news/fukutoku-tosen-2026.html" style="color: var(--text-dark); text-decoration: none;">令和８年福徳会 ～当籤番号の発表～</a>
-                                </li>
-                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
-                                    <span style="color: #999; font-size: 0.85rem;">2026-03-13</span><br>
-                                    <a href="news/gyoji-202604.html" style="color: var(--text-dark); text-decoration: none;">令和8年4月のご案内</a>
-                                </li>
-                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
-                                    <span style="color: #999; font-size: 0.85rem;">2026-03-05</span><br>
-                                    <a href="news/goshinsio-2026.html" style="color: var(--text-dark); text-decoration: none;">御神塩のご案内</a>
-                                </li>
-                                <li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
-                                    <span style="color: #999; font-size: 0.85rem;">2026-02-06</span><br>
-                                    <a href="news/jyosyo-2026-03.html" style="color: var(--text-dark); text-decoration: none;">神語奉書浄書会のご案内</a>
-                                </li>
-                                <li style="margin-bottom: 0.5rem;">
-                                    <a href="news.html" style="color: var(--primary-red); text-decoration: none; font-weight: 500;">→ 新着情報一覧を見る</a>
-                                </li>
-                            </ul>
+                            <ul id="news-list" style="list-style: none; padding: 0; font-size: 0.95rem;"></ul>
                         </div>
                     </div>
                 </div>
+
+                <script>
+                fetch('data/news.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        // お知らせを全件表示
+                        const noticesList = document.getElementById('notices-list');
+                        data.notices.forEach(item => {
+                            noticesList.innerHTML += `<li style="margin-bottom: 0.8rem;">
+                                <a href="${item.url}" style="color: var(--text-dark); text-decoration: none; display: block; padding: 0.5rem 0;">
+                                    ■ ${item.title}
+                                </a>
+                            </li>`;
+                        });
+
+                        // 新着情報を最新5件表示
+                        const newsList = document.getElementById('news-list');
+                        data.news.slice(0, 5).forEach(item => {
+                            newsList.innerHTML += `<li style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #f0f0f0;">
+                                <span style="color: #999; font-size: 0.85rem;">${item.date}</span><br>
+                                <a href="${item.url}" style="color: var(--text-dark); text-decoration: none;">${item.title}</a>
+                            </li>`;
+                        });
+                        newsList.innerHTML += `<li style="margin-bottom: 0.5rem;">
+                            <a href="news.html" style="color: var(--primary-red); text-decoration: none; font-weight: 500;">→ 新着情報一覧を見る</a>
+                        </li>`;
+                    });
+                </script>
             </div>
         </section>
 
@@ -280,7 +264,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>Copyright (C) 2002-2025 Izumo Oyashiro Tokyo. All Rights Reserved.</p>
+            <p>Copyright (C) 2002-2026 Izumo Oyashiro Tokyo. All Rights Reserved.</p>
         </div>
     </footer>
 
