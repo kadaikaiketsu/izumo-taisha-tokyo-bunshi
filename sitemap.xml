@@ -36,6 +36,26 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://izumotaisya-tokyobunshi.com/events/tsukitsuki</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://izumotaisya-tokyobunshi.com/events/kinoe</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://izumotaisya-tokyobunshi.com/events/oharae</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://izumotaisya-tokyobunshi.com/events/joya</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
         <loc>https://izumotaisya-tokyobunshi.com/funeral</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
